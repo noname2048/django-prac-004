@@ -1,1 +1,22 @@
 ### Django with Docker ###
+
+# important secret keys
+/secrets
+
+# requirements of devs
+/requirements/dev.txt
+
+# pyenv
+/.python-version
+
+# pycache
+__pycache__/
+
+# static and media
+django_project/static
+django_project/media
+
+# IDE
+/.vscode
+/.idea
+.ipynb_checkpoints
