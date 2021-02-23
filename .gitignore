@@ -21,3 +21,6 @@ water/media
 /.vscode
 /.idea
 .ipynb_checkpoints
+
+# DB
+db.sqlite3
