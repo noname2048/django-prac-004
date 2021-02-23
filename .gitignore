@@ -2,6 +2,7 @@
 
 # important secret keys
 /secrets
+/.env
 
 # requirements of devs
 /requirements/dev.txt
