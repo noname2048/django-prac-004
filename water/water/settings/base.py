@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 3rd apps
+    #
+    # apps
+    "main",
+    "forum",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +61,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR / "water" / "templates/",
+            # BASE_DIR / "water" / "templates/",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
