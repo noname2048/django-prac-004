@@ -14,8 +14,8 @@
 __pycache__/
 
 # static and media
-water/static
-water/media
+/static
+/media
 
 # IDE
 /.vscode
