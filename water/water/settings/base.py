@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     # 3rd apps
     #
     # apps
-    "main",
     "forum",
 ]
 
@@ -61,7 +60,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            # BASE_DIR / "water" / "templates/",
+            BASE_DIR / "water" / "templates/",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
