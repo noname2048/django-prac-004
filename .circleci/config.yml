@@ -2,23 +2,23 @@ version: 2.1
 
 jobs:
   build: # job names
-    # machine: # machine image @ cicleci
-    #  image: ubuntu-2004:202101-01
     docker: # docker image
-    - image: python:3.9.2
-      auth:
-        username: noname2048 
-        password: $DOCKERHUB_PASSWORD
-
+      - image: python:3.9.2
+        auth:
+          username: noname2048 
+          password: $DOCKERHUB_PASSWORD
+    environment:
+      DEBUG: False
+    working_directory: . # default
     steps:
-    - checkout
-    - run:
-        command: | # multilines string
+      - checkout
+      - run:
+        command: | # multiline string
           pip install --upgrade pip 
           pip install Django
 
 workflows:
   version: 2
-  install_django:
+  install_django: # workflow namespace
     jobs:
     - build
