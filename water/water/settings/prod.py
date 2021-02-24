@@ -1,16 +1,14 @@
 from .base import *
+import os
+from django.core.exceptions import ImproperlyConfigured
+import json
 
 DEBUG = False
+SECRET_DIR = BASE_DIR.parent / ".secrets.json"
 
 try:
-    import os
-    from django.core.exceptions import ImproperlyConfigured
-
-    SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+    secrets = json.load(open(SECRET_DIR))
+    SECRET_KEY = secrets["DJANGO_SECRET_KEY"]
+    ALLOWED_HOSTS = secrets["ALLOWED_HOSTS"]
 except:
     raise ImproperlyConfigured("[DEV] SECRET_KEY NOT FOUND! ")
-
-ALLOWED_HOSTS = [
-    "0.0.0.0",
-    "www.noname2048.dev",
-]
