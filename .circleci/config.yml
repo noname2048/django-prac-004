@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: ~/water
+    docker:
+    - image: python/3.9.2-alpine3.13
+      auth:
+        username: noname2048 
+        password: $DOCKERUUB_PASSWORD
+
+    steps:
+      - checkout
+      - run:
+          command: |
+            sudo pip install Django
+
+workflows:
+  version: 2
+    install_django:
+      jobs:
+        - build
