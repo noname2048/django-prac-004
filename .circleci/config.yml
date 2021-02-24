@@ -2,8 +2,8 @@ version: 2.1
 
 jobs:
   build: # job names
-    machine: # machine image @ cicleci
-      image: ubuntu-2004:202101-01
+    # machine: # machine image @ cicleci
+    #  image: ubuntu-2004:202101-01
     docker: # docker image
     - image: python:3.9.2-alpine3.13
       auth:
@@ -20,4 +20,4 @@ workflows:
   version: 2
   install_django:
     jobs:
-      - build
+    - build
