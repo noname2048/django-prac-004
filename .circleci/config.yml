@@ -3,16 +3,16 @@ version: 2.1
 jobs:
   build: # job names
     docker: # docker image
-      - image: python:3.9.2
-        auth:
-          username: noname2048 
-          password: $DOCKERHUB_PASSWORD
+    - image: python:3.9.2
+      auth:
+        username: noname2048 
+        password: $DOCKERHUB_PASSWORD
     environment:
-      DEBUG: False
+      DEBUG: "False"
     working_directory: . # default
     steps:
-      - checkout
-      - run:
+    - checkout
+    - run:
         command: | # multiline string
           pip install --upgrade pip 
           pip install Django
