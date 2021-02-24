@@ -13,9 +13,9 @@ jobs:
     steps:
     - checkout
     - run:
-        command: |
-          pip install 
-          sudo pip install Django
+        command: | # multilines string
+          pip upgrade --pip 
+          pip install Django
 
 workflows:
   version: 2
