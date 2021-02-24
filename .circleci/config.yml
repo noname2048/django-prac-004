@@ -10,10 +10,10 @@ jobs:
         password: $DOCKERUUB_PASSWORD
 
     steps:
-      - checkout
-      - run:
-          command: |
-            sudo pip install Django
+    - checkout
+    - run:
+        command: |
+          sudo pip install Django
 
 workflows:
   version: 2
