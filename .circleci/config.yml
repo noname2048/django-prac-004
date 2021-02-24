@@ -5,7 +5,7 @@ jobs:
     machine: # machine image @ cicleci
       image: ubuntu-2004:202101-01
     docker: # docker image
-    - image: python/3.9.2-alpine3.13
+    - image: python:3.9.2-alpine3.13
       auth:
         username: noname2048 
         password: $DOCKERHUB_PASSWORD
