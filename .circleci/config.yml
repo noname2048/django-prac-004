@@ -14,7 +14,7 @@ jobs:
     - checkout
     - run:
         command: | # multilines string
-          pip install --upgrade --pip 
+          pip install --upgrade pip 
           pip install Django
 
 workflows:
