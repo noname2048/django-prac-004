@@ -9,7 +9,7 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
-    working_directory: . # default
+    working_directory: / # default
     steps:
     - checkout
     - run:
