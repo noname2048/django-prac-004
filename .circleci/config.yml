@@ -16,6 +16,10 @@ jobs:
         command: | # multiline string
           pip install --upgrade pip 
           pip install -r requirements.txt
+    - run:
+        command: |
+          cd water
+          python manage.py test
 
 workflows:
   version: 2
