@@ -9,13 +9,13 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
-    working_directory: / # default
+    working_directory: ~/project # default
     steps:
     - checkout
     - run:
         command: | # multiline string
           pip install --upgrade pip 
-          pip install Django
+          pip install -r requirements.txt
 
 workflows:
   version: 2
