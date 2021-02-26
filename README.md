@@ -4,4 +4,10 @@
 벡엔드의 여러가지를 연습하고자 만든 저장소 입니다.
 
 구현할 개념들
-* CI/CD
+* CI
+* CD? DA(deploy automation?)
+* 백업용 RDB
+* Redis 캐시서버
+* CDN 용 S3
+* media S3
+
