@@ -55,13 +55,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "water.urls"
+ROOT_URLCONF = "mysite.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR / "water" / "templates/",
+            BASE_DIR / "mysite" / "templates/",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "water.wsgi.application"
+WSGI_APPLICATION = "mysite.wsgi.application"
 
 
 # Database
@@ -127,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "water" / "static/",
+    BASE_DIR / "mysite" / "static/",
 ]
 STATIC_ROOT = BASE_DIR.parent / "static/"
 
