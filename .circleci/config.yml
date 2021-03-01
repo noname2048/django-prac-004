@@ -19,7 +19,7 @@ jobs:
     - run:
         command: |
           echo $SECRET > .secrets.json
-          cd water
+          cd django_project
           python manage.py test
 
 workflows:
