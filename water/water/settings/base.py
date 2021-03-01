@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3rd apps
     #
     # apps
+    "account",
     "forum",
 ]
 
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -132,3 +133,5 @@ STATIC_ROOT = BASE_DIR.parent / "static/"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR.parent / "media/"
+
+AUTH_USER_MODEL = "account.User"
