@@ -37,7 +37,7 @@ services:
       - -c
       - |
         bash -c 'while !</dev/tcp/db/5432; do sleep 1; done;'
-        cd /django_prac/django_app
+        cd /django_prac/django_project
         python manage.py migrate
         python manage.py inituser
         python manage.py runserver 0:8000
