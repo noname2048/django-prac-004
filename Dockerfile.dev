@@ -1,0 +1,12 @@
+FROM python:3.9.2
+LABEL description="개발용 장고 도커 파일"
+
+RUN apt-get update && apt-get install -y vim
+
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+ENV PYTHONUNBUFFERED 1
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
+CMD ["/bin/bash"]
