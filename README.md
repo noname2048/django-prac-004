@@ -11,14 +11,15 @@
 
 ### 1.2 구현할 기능
 * CD(Continuos Delivery) DA(deploy automation?)
-* Replica RDB
-* RDB failover
+* Replica RDB (RDB failover...?)
 * memory nosql: redis (aws elasticache)
 * disk nosql: mongodb
 * static files: aws s3 : cloudfront
 * media S3 : aws s3
 * test 경험 :unittest, pytest
-  
+* JWT 토큰
+* 비동기 태스크 큐: celery - sendgrid(mail)
+
 ### 1.3 서버구조
 -> (http) nginx (socket) gunicorn (wsgi) django \
 (rdbms) postgresql \
