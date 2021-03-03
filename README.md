@@ -7,7 +7,8 @@
 ### 1.1 구현된 기능
 * CI; continuous integration; circleci
 * python manage.py test 로 메인 화면 테스트
-* AWS Postgresql RDB
+* default RDS: AWS postgres
+* FileField: AWS S3 (django-storages, boto3)
 
 ### 1.2 구현할 기능
 * CD(Continuos Delivery) DA(deploy automation?)
