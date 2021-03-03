@@ -11,6 +11,7 @@ class User(AbstractUser):
     # is_active
     # date_joined
     # objects
+    name = models.TextField()
 
     class GenderInGender(models.TextChoices):
         MALE = "M", "남"

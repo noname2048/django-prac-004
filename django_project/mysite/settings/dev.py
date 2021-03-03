@@ -21,21 +21,21 @@ INTERNAL_IPS = [
 
 import os
 
-DATABASES.update(
-    {
-        "default": {
-            "NAME": os.getenv("DJANGO_DB_NAME"),
-            "ENGINE": "django.db.backends.postgresql",
-            "USER": os.getenv("DJANGO_DB_USERNAME"),
-            "PASSWORD": os.getenv("DJANGO_DB_PASSWORD"),
-            "HOST": os.getenv("DJANGO_DB_HOST"),
-            "PORT": 5432,
-        }
-    }
-)
+# DATABASES.update(
+#     {
+#         "dev": {
+#             "NAME": os.getenv("DJANGO_DB_NAME"),
+#             "ENGINE": "django.db.backends.postgresql",
+#             "USER": os.getenv("DJANGO_DB_USERNAME"),
+#             "PASSWORD": os.getenv("DJANGO_DB_PASSWORD"),
+#             "HOST": os.getenv("DJANGO_DB_HOST"),
+#             "PORT": 5432,
+#         }
+#     }
+# )
 
-# DATABASES_ROUTERS = [
-#    "forum.routers.MultiDBRouter",
+# DATABASE_ROUTERS = [
+#     "account.routers.AccountRouter",
 # ]
 
 FIRST_USER = {
@@ -43,3 +43,28 @@ FIRST_USER = {
     "email": "sungwook.csw@gmail.com",
     "password": "admin",
 }
+
+from dotenv import load_dotenv
+
+env_path = BASE_DIR.parent / ".env"
+load_dotenv(dotenv_path=env_path)
+
+# DATABASES.update(
+#     {
+#         "default": {
+#             "NAME": "postgres",
+#             "ENGINE": "django.db.backends.postgresql",
+#             "USER": os.getenv("PRODUCT_DB_USER"),
+#             "PASSWORD": os.getenv("PRODUCT_DB_PASSWORD"),
+#             "HOST": os.getenv("PRODUCT_DB_HOST"),
+#             "PORT": 5432,
+#         },
+#     }
+# )
+
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
