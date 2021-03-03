@@ -20,6 +20,7 @@
 * JWT 토큰
 * 비동기 태스크 큐: celery - sendgrid(mail)
 * images와 files 분리된 버킷에 업로드
+* multiDB로 여러가지 DB 한꺼번에 써보기
 
 ### 1.3 서버구조
 -> (http) nginx (socket) gunicorn (wsgi) django \
