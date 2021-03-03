@@ -58,3 +58,11 @@ docker-compose up --build
 * html: prettier
 
 
+## 4. tips
+### 4.1 환경변수 관련
+dotenv 사용
+#### 환경변수가 없을때
+os.environ["key"] | "KeyError"
+os.environ.get("key") | "None"
+os.getenv("key") | ""
+os.getenv("key", "default_value") | "default_value"
