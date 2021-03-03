@@ -19,6 +19,7 @@
 * test 경험 :unittest, pytest
 * JWT 토큰
 * 비동기 태스크 큐: celery - sendgrid(mail)
+* images와 files 분리된 버킷에 업로드
 
 ### 1.3 서버구조
 -> (http) nginx (socket) gunicorn (wsgi) django \
