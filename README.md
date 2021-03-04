@@ -1,6 +1,6 @@
 # django-prac-004:dev
 [![django-prac-004](https://circleci.com/gh/noname2048/django-prac-004.svg?style=svg)](https://circleci.com/gh/noname2048/django-prac-004.svg?style=svg)
-
+[![codecov](https://codecov.io/gh/noname2048/django-prac-004/branch/main/graph/badge.svg?token=S44312H93C)](https://codecov.io/gh/noname2048/django-prac-004)
 벡엔드의 여러가지를 연습하고자 만든 저장소 입니다.
 
 ## 1 서버개요
