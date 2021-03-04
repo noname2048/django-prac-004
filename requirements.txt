@@ -5,4 +5,4 @@ coverage==5.5
 codecov==2.1.11
 django-storages==1.11.1
 boto3==1.17.19
-awsebcli==3.19.3
+# awsebcli==3.19.3
