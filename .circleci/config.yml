@@ -13,14 +13,24 @@ jobs:
     steps:
     - checkout
     - run:
+        name: pip install
         command: | # multiline string
           pip install --upgrade pip 
           pip install -r requirements.txt
     - run:
-        command: |
+        name: env set
+        command:
           echo $SECRET > .secrets.json
+    - run:
+        name: manage.py test
+        command: |
           cd django_project
           python manage.py test
+    - run:
+        name: test codecov
+        command: |
+          coverage run ./manage.py test
+          codecov
 
 workflows:
   version: 2
