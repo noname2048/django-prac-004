@@ -31,4 +31,5 @@ db.sqlite3
 !.elasticbeanstalk/*.global.yml
 
 # coverage with codecov
+.coverage
 coverage.xml

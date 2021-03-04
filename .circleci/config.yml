@@ -27,10 +27,10 @@ jobs:
           cd django_project
           python manage.py test
     - run:
-        name: test codecov
+        name: send to codecov
         command: |
           coverage run ./manage.py test
-          codecov
+          codecov -t $CODECOV_TOKEN
 
 workflows:
   version: 2
