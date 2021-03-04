@@ -5,9 +5,8 @@
 
 ## 1 서버개요
 ### 1.1 구현된 기능
-* CI; continuous integration; circleci
-* python manage.py test 로 메인 화면 테스트
-* default RDS: AWS postgres
+* circleci + python manage.py test (메인 화면 테스트)
+* default DB: AWS RDS (postgres)
 * FileField: AWS S3 (django-storages, boto3)
 
 ### 1.2 구현할 기능
