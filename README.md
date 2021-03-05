@@ -1,15 +1,28 @@
-# django-prac-004:dev
-[![django-prac-004](https://circleci.com/gh/noname2048/django-prac-004.svg?style=svg)](https://circleci.com/gh/noname2048/django-prac-004.svg?style=svg)
+# Django Portfolio
+
+[![django-prac-004](https://circleci.com/gh/noname2048/django-prac-004.svg?style=shield)](https://circleci.com/gh/noname2048/django-prac-004.svg?style=shield)
 [![codecov](https://codecov.io/gh/noname2048/django-prac-004/branch/main/graph/badge.svg?token=S44312H93C)](https://codecov.io/gh/noname2048/django-prac-004)
-벡엔드의 여러가지를 연습하고자 만든 저장소 입니다.
+
+Django 연습 레포 입니다.
 
 ## 1 서버개요
-### 1.1 구현된 기능
+
+### 1.1 메인 기술 스택
+
+* `Django: 3.1.5`
+* `PostgresSQL: 12.5`
+* `CircleCi: 2.1`
+* `Codecov: py-v2.1.11`
+
+### 1.2 구현된 기능
+
 * circleci + python manage.py test (메인 화면 테스트)
 * default DB: AWS RDS (postgres)
 * FileField: AWS S3 (django-storages, boto3)
+* Codecov 연동
 
-### 1.2 구현할 기능
+### 1.3 구현할 기능
+
 * CD(Continuos Delivery) DA(deploy automation?)
 * Replica RDB (RDB failover...?)
 * memory nosql: redis (aws elasticache)
@@ -21,9 +34,9 @@
 * 비동기 태스크 큐: celery - sendgrid(mail)
 * images와 files 분리된 버킷에 업로드
 * multiDB로 여러가지 DB 한꺼번에 써보기
-* codecov 이용해보기
 
 ### 1.3 서버구조
+
 -> (http) nginx (socket) gunicorn (wsgi) django \
 (rdbms) postgresql \
 (nosql: cache) redis \
