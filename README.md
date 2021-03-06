@@ -71,11 +71,33 @@ docker-compose up --build
 * html: prettier
 
 
-## 4. tips
+## 4. 프로젝트 구동 팁
 ### 4.1 환경변수 관련
-dotenv 사용
-#### 환경변수가 없을때
-os.environ["key"] | "KeyError"
-os.environ.get("key") | "None"
-os.getenv("key") | ""
-os.getenv("key", "default_value") | "default_value"
+
+도커를 이용해서 빌드할때 dotenv를 사용하고 있습니다. 필요한 키값은 다음과 같습니다.
+
+### 4.1.1 .env
+
+| 키 | 관련 | 비고 |
+|---|---|---|
+| DJANGO_SECRET_KEY | 장고 기본 |
+| PRODUCT_DB_POSTGRES_HOST | AWS DB |
+| PRODUCT_DB_NAME | AWS DB |
+| PRODUCT_DB_PASSWORD | AWS DB |
+| AWS_ACCESS_KEY_ID | AWS S3 |
+| AWS_SECRET_ACCESS_KEY | AWS S3 |
+
+### 4.1.2 환경변수가 없을때
+
+python에서 env를 가져오는 4가지 방법중에, 키가 없으면 오류가 나는 방식을 채택하였습니다. \
+KeyValue 오류가 난다면 해당 키 항목의 키 체크가 필요합니다.
+
+```python
+# <key> <default_value> is abstarcted
+
+os.getenv("<key>") # IF NOT: "None"
+os.getenv("<key>", "<default_value>") # "default_value"
+# This repo choose this method
+os.environ["<key>"] # IF NOT: KeyError raise
+os.environ.get("key") # IF NOT: "None"
+```
