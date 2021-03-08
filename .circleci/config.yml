@@ -1,9 +1,10 @@
+
 version: 2.1
 
 jobs:
-  build: # job names
+  simple_build: # job names
     docker: # docker image
-    - image: python:3.9.2
+    - image: noname2048/askbanana:simple
       auth:
         username: noname2048 
         password: $DOCKERHUB_PASSWORD
@@ -11,25 +12,26 @@ jobs:
       DEBUG: "False"
     working_directory: ~/project # default
     steps:
-    - checkout
-    - run:
-        name: pip install
-        command: | # multiline string
-          pip install --upgrade pip 
-          pip install -r requirements.txt
-    - run:
-        name: env set
-        command:
-          echo $SECRET > .secrets.json
-    - run:
-        name: manage.py test
-        command: |
-          cd django_project
-          python manage.py test
+    # - checkout
+    # - run:
+    #     name: pip install
+    #     command: | # multiline string
+    #       pip install --upgrade pip 
+    #       pip install -r requirements.txt
+    # - run:
+    #     name: env set
+    #     command:
+    #       echo $SECRET > .secrets.json
+    # - run:
+    #     name: manage.py test
+    #     command: |
+    #       cd django_project
+    #       python manage.py test
     - run:
         name: send to codecov
         command: |
-          cd django_project
+          ls
+          cd /askbanana/django_proejct
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
@@ -37,4 +39,4 @@ workflows:
   version: 2
   install_django: # workflow namespace
     jobs:
-    - build
+    - simple_build
