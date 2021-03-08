@@ -37,4 +37,4 @@ workflows:
   version: 2
   install_django: # workflow namespace
     jobs:
-    - build
+    - simple_build
