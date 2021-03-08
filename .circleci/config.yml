@@ -28,12 +28,14 @@ jobs:
     #       cd django_project
     #       python manage.py test
     - run:
-        name: send to codecov
-        command: |
-          ls
-          cd /askbanana/django_proejct
-          coverage run ./manage.py test
-          codecov -t $CODECOV_TOKEN
+        name: read file dir
+        command: ls
+    # - run:
+    #     name: send to codecov
+    #     command: |
+    #       cd /askbanana/django_proejct
+    #       coverage run ./manage.py test
+    #       codecov -t $CODECOV_TOKEN
 
 workflows:
   version: 2
