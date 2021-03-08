@@ -1,3 +1,4 @@
+
 version: 2.1
 
 jobs:
@@ -11,7 +12,7 @@ jobs:
       DEBUG: "False"
     working_directory: ~/project # default
     steps:
-    - checkout
+    # - checkout
     # - run:
     #     name: pip install
     #     command: | # multiline string
@@ -29,7 +30,8 @@ jobs:
     - run:
         name: send to codecov
         command: |
-          cd askbanana/django_proejct
+          ls
+          cd /askbanana/django_proejct
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
