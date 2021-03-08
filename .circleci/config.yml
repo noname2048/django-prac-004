@@ -29,7 +29,9 @@ jobs:
     #       python manage.py test
     - run:
         name: read file dir
-        command: ls
+        command:
+          ls -al >> a.txt
+          echo a.txt
     # - run:
     #     name: send to codecov
     #     command: |
