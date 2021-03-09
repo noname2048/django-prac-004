@@ -45,6 +45,6 @@ jobs:
 
 workflows:
   version: 2
-  install_django: # workflow namespace
+  test_django_docker: # workflow namespace
     jobs:
     - simple_build
