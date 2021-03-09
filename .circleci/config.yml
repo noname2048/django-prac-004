@@ -10,7 +10,7 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
-    working_directory: ~/project # default
+    working_directory: ~/askbanana #~/project # default
     steps:
     # - checkout
     # - run:
@@ -32,10 +32,6 @@ jobs:
         command:
           ls -al >> a.txt && 
           cat a.txt
-    - run:
-        name: connect docker
-        command:
-          docker exec -it askbanana /bin/bash
     # - run:
     #     name: send to codecov
     #     command: |
