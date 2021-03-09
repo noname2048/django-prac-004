@@ -5,7 +5,7 @@ volumes:
   dev_db: {}
 
 services:
-  db:
+  docker_postgres_db: # postgres_db
     image: postgres
     volumes:
       - dev_db:/var/lib/postgresql/data
@@ -15,12 +15,13 @@ services:
       - POSTGRES_PASSWORD=example
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
-  web:
-    depends_on: 
-      - db
+  wsa: # web server application
+    depends_on:
+      - docker_postgres_db
     build:
-      context: .
-      dockerfile: ./Dockerfile.dev
+      image: django_banana
+      # context: .
+      # dockerfile: ./Dockerfile.dev
     volumes:
       - ./:/django_prac
     ports:

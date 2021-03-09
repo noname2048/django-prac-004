@@ -30,8 +30,12 @@ jobs:
     - run:
         name: read file dir
         command:
-          ls -al >> a.txt
+          ls -al >> a.txt && 
           echo a.txt
+    - run:
+        name: connect docker
+        command:
+          docker exec -it askbanana /bin/bash
     # - run:
     #     name: send to codecov
     #     command: |
