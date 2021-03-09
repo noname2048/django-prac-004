@@ -10,7 +10,7 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
-    working_directory: /askbanana/django_proejct # ~/project # default
+    working_directory: /askbanana/django_project # ~/project # default
     steps:
     # - checkout
     # - run:
