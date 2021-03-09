@@ -30,8 +30,12 @@ jobs:
     - run:
         name: read file dir
         command:
-          ls -al >> a.txt
+          ls -al >> a.txt && 
           echo a.txt
+    - run:
+        name: connect docker
+        command:
+          docker exec -it askbanana /bin/bash
     # - run:
     #     name: send to codecov
     #     command: |
@@ -41,6 +45,6 @@ jobs:
 
 workflows:
   version: 2
-  install_django: # workflow namespace
+  test_django_docker: # workflow namespace
     jobs:
     - simple_build
