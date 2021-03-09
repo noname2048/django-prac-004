@@ -10,7 +10,7 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
-    working_directory: ~/askbanana #~/project # default
+    working_directory: /askbanana #~/project # default
     steps:
     # - checkout
     # - run:
