@@ -10,7 +10,7 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
-    working_directory: ~/project # default
+    working_directory: ~/askbanana #~/project # default
     steps:
     # - checkout
     # - run:
@@ -31,11 +31,7 @@ jobs:
         name: read file dir
         command:
           ls -al >> a.txt && 
-          echo a.txt
-    - run:
-        name: connect docker
-        command:
-          docker exec -it askbanana /bin/bash
+          cat a.txt
     # - run:
     #     name: send to codecov
     #     command: |

@@ -33,3 +33,6 @@ db.sqlite3
 # coverage with codecov
 .coverage
 coverage.xml
+
+# something just cache in development file
+**/*old*
