@@ -27,11 +27,11 @@ jobs:
     #     command: |
     #       cd django_project
     #       python manage.py test
-    # - run:
-    #     name: read file dir
-    #     command:
-    #       ls -al >> a.txt && 
-    #       cat a.txt
+    - run:
+        name: read file dir
+        command:
+          ls -al >> a.txt && 
+          cat a.txt
     - run:
         name: send to codecov
         command: |
