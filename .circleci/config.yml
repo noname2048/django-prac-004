@@ -10,6 +10,7 @@ jobs:
         password: $DOCKERHUB_PASSWORD
     environment:
       DEBUG: "False"
+      DB: "local"
     working_directory: /askbanana/django_project # ~/project # default
     steps:
     # - checkout
@@ -27,11 +28,11 @@ jobs:
     #     command: |
     #       cd django_project
     #       python manage.py test
-    - run:
-        name: read file dir
-        command:
-          ls -al >> a.txt && 
-          cat a.txt
+    # - run:
+    #     name: read file dir
+    #     command:
+    #       ls -al >> a.txt && 
+    #       cat a.txt
     - run:
         name: send to codecov
         command: |

@@ -25,16 +25,25 @@ INTERNAL_IPS = [
     "localhost",
 ]
 
-DATABASES = {
-    "default": {
-        "NAME": "postgres",
-        "ENGINE": "django.db.backends.postgresql",
-        "USER": "postgres",
-        "HOST": os.environ["PRODUCT_DB_POSTGRES_HOST"],
-        "PASSWORD": os.environ["PRODUCT_DB_PASSWORD"],
-        "PORT": 5432,
-    },
-}
+DB = os.getenv("DB", default="default")
+if DB == "local":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
+    }
+else:
+    DATABASES = {
+        "default": {
+            "NAME": "postgres",
+            "ENGINE": "django.db.backends.postgresql",
+            "USER": "postgres",
+            "HOST": os.environ["PRODUCT_DB_POSTGRES_HOST"],
+            "PASSWORD": os.environ["PRODUCT_DB_PASSWORD"],
+            "PORT": 5432,
+        },
+    }
 
 # USE_DB = "default"
 # USE_DB = "dev"
