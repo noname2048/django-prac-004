@@ -90,14 +90,14 @@ docker-compose up --build
 ### 4.1.2 환경변수가 없을때
 
 python에서 env를 가져오는 4가지 방법중에, 키가 없으면 오류가 나는 방식을 채택하였습니다. \
-KeyValue 오류가 난다면 해당 키 항목의 키 체크가 필요합니다.
+KeyError 오류가 난다면 해당 키 항목의 키 체크가 필요합니다.
 
 ```python
 # <key> <default_value> is abstarcted
 
-os.getenv("<key>") # IF NOT: "None"
-os.getenv("<key>", "<default_value>") # "default_value"
-# This repo choose this method
-os.environ["<key>"] # IF NOT: KeyError raise
-os.environ.get("key") # IF NOT: "None"
+# 함수의 원형 os.getenv("<key>", default=None) 
+os.getenv("<key>") # IF_NOT: "None"
+os.getenv("<key>", "<default_value>") # IF_NOT: "<default_value>"
+os.environ["<key>"] # IF_NOT: KeyError raise # This repo choose this method
+os.environ.get("key") # IF_NOT: "None"
 ```
