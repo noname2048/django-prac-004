@@ -61,10 +61,12 @@ docker-compose up --build
 ```
 ## 3 VCS 관리
 ### 3.1 commit message abbreviation
-* \+ 추가 add
-* \- 제거 remove
-* \* 수정 update
-* \~ 이동 moved
+`20.03.11: v3`
+기호|prefix|postfix
+\+|new file|feature added|
+\-|file removed|feature removed|
+\#||updated
+\>|file moved|
 
 ### 3.2 formatters
 * python: black
