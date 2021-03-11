@@ -61,8 +61,10 @@ docker-compose up --build
 ```
 ## 3 VCS 관리
 ### 3.1 commit message abbreviation
+
 `20.03.11: v3`
 기호|prefix|postfix
+---|---|---
 \+|new file|feature added|
 \-|file removed|feature removed|
 \#||updated
