@@ -44,7 +44,7 @@ Django 연습 레포 입니다.
 local에서는 pypi의 dotenv를 사용하여 프로젝트 폴더의 .env를 읽습니다.
 필요한 환경변수는 다음과 같습니다.
 
-키|관련|비고
+키 | 관련 | 비고
 ---|---|---
 DJANGO_SECRET_KEY | 장고 기본
 PRODUCT_DB_POSTGRES_HOST | AWS DB
