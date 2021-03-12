@@ -34,32 +34,36 @@ Django 연습 레포 입니다.
 * 비동기 태스크 큐: celery - sendgrid(mail)
 * images와 files 분리된 버킷에 업로드
 * multiDB로 여러가지 DB 한꺼번에 써보기
+* product 에서 nginx(http), gunicorn(socket), django(wsgi) 쓰기
+* redis와 mongodb 연결하기
 
-### 1.3 서버구조
-
--> (http) nginx (socket) gunicorn (wsgi) django \
-(rdbms) postgresql \
-(nosql: cache) redis \
-(nosql: persistance) mongodb
 ## 2 서버실행
+
 ### 2.1 환경변수와 키값
-secret 대신 env 파일 이용
-루트 폴더 아래에 해당 파일과 키들 필요
-```
-# django-prac-004/.secrets.json
-{
-    "DJANGO_SECRET_KEY": ""
-    "ALLOWED_HOSTS": [
-        ""
-    ]
-}
-```
+
+local에서는 pypi의 dotenv를 사용하여 프로젝트 폴더의 .env를 읽습니다.
+필요한 환경변수는 다음과 같습니다.
+
+키 | 관련 | 비고
+---|---|---
+DJANGO_SECRET_KEY | 장고 기본
+PRODUCT_DB_POSTGRES_HOST | AWS DB
+PRODUCT_DB_NAME | AWS DB
+PRODUCT_DB_PASSWORD | AWS DB
+AWS_ACCESS_KEY_ID | AWS S3
+AWS_SECRET_ACCESS_KEY | AWS S3
+
 ### 2.2 도커 컴포즈 파일로 실행
---build 옵션: 이미지 빌드과정을 터미널에서 보여줌
+
+local 환경에서는 docker-compose.dev를 이용해 주세요
 ```bash
-docker-compose up --build
+docker-compose up --build .
 ```
+
+* --build: 이미지 빌드과정을 보여줍니다.
+* 
 ## 3 VCS 관리
+
 ### 3.1 commit message abbreviation
 
 `20.03.11: v3`
@@ -71,6 +75,7 @@ docker-compose up --build
 \>|file moved|
 
 ### 3.2 formatters
+
 * python: black
 * html: prettier
 
