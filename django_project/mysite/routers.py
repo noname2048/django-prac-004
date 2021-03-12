@@ -1,7 +1,7 @@
 class MultiDBRouter:
     route_app_labels = {
         "forum",
-        "account",
+        "accounts",
         "water",
     }
 
