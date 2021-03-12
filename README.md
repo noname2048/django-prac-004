@@ -74,7 +74,6 @@ docker-compose up --build .
 \#||updated
 \>|file moved|
 
-
 ### 3.2 formatters
 
 * python: black
