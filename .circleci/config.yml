@@ -43,4 +43,8 @@ workflows:
   version: 2
   test_django_docker: # workflow namespace
     jobs:
-    - simple_build
+    - simple_build:
+        filters:
+          branches:
+            ignore:
+            - /.*/
