@@ -37,12 +37,19 @@ Django 연습 레포 입니다.
 * product 에서 nginx(http), gunicorn(socket), django(wsgi) 쓰기
 * redis와 mongodb 연결하기
 
-## 2 서버실행
+## 2 테스트용 서버 실행
 
-### 2.1 환경변수와 키값
+### 2.1 테스트 환경
+
+* python manage.py runserver 을 이용하여 테스트
+* 로컬에 postgresql 을 5431 로 띄워 테스트 (5432는 이미 설치된 postgresql 이 있다고 가정)
+* 테스트에서 바로 프로덕션 S3 접속 (나중에 공부해서 분리)
+* Redis 준비
+
+### 2.2 테스트 환경변수
 
 local에서는 pypi의 dotenv를 사용하여 프로젝트 폴더의 .env를 읽습니다.
-필요한 환경변수는 다음과 같습니다.
+python manage.py runserver 에서 필요한 환경변수는 다음과 같습니다.
 
 키 | 관련 | 비고
 ---|---|---
@@ -62,10 +69,18 @@ docker-compose up --build .
 
 * --build: 이미지 빌드과정을 보여줍니다.
 * 
-## 3 VCS 관리
+## 3 Version Control System 관련사항
 
-### 3.1 commit message abbreviation
+### 3.1 formatter 를 이용한 정리
 
+formatter|대상
+---|---
+black: python
+prettier: html, js
+
+### 3.2 커밋 메세지 관련 (중요하지 않음)
+
+(commit message abbreviation)
 `20.03.11: v3`
 기호|prefix|postfix
 ---|---|---
@@ -74,13 +89,11 @@ docker-compose up --build .
 \#||updated
 \>|file moved|
 
-### 3.2 formatters
+## 4. 배포환경
 
-* python: black
-* html: prettier
+### 4.1 배포과정
 
 
-## 4. 프로젝트 구동 팁
 ### 4.1 환경변수 관련
 
 도커를 이용해서 빌드할때 dotenv를 사용하고 있습니다. 필요한 키값은 다음과 같습니다.
