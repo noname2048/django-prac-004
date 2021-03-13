@@ -60,15 +60,15 @@ PRODUCT_DB_PASSWORD | AWS DB
 AWS_ACCESS_KEY_ID | AWS S3
 AWS_SECRET_ACCESS_KEY | AWS S3
 
-### 2.2 도커 컴포즈 파일로 실행
+### 2.3 도커 컴포즈 파일로 실행
 
-local 환경에서는 docker-compose.dev를 이용해 주세요
+dockerfile 내부의 docker-compose.dev.yml 를 프로젝트 파일 아래의 docker-compose.yml 로 변경
+이후 up 명령어 실행
+
 ```bash
 docker-compose up --build .
 ```
 
-* --build: 이미지 빌드과정을 보여줍니다.
-* 
 ## 3 Version Control System 관련사항
 
 ### 3.1 formatter 를 이용한 정리
@@ -93,23 +93,23 @@ prettier: html, js
 
 ### 4.1 배포과정
 
+1. git push
+2. circleci build
+3. circleci -> aws s3 (code)
+   
+### 4.2 배포용 환경변수
 
-### 4.1 환경변수 관련
+#### 4.2.1 circleci
 
-도커를 이용해서 빌드할때 dotenv를 사용하고 있습니다. 필요한 키값은 다음과 같습니다.
+--
 
-### 4.1.1 django-prac-004/.env
+#### 4.2.2 aws ec2
 
-| 키 | 관련 | 비고 |
-|---|---|---|
-| DJANGO_SECRET_KEY | 장고 기본 |
-| PRODUCT_DB_POSTGRES_HOST | AWS DB |
-| PRODUCT_DB_NAME | AWS DB |
-| PRODUCT_DB_PASSWORD | AWS DB |
-| AWS_ACCESS_KEY_ID | AWS S3 |
-| AWS_SECRET_ACCESS_KEY | AWS S3 |
+--
 
-### 4.1.2 환경변수가 없을때
+## 5 오류처리
+
+### 5.1 환경변수
 
 python에서 env를 가져오는 4가지 방법중에, 키가 없으면 오류가 나는 방식을 채택하였습니다. \
 KeyError 오류가 난다면 해당 키 항목의 키 체크가 필요합니다.
