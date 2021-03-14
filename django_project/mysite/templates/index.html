@@ -18,6 +18,7 @@
 
     <h1>SERVER: ROOT</h1>
     <img src="{% static "popcat.jpg" %}" alt="popcat" style="height:10rem;">
+    <a href="{% url "index" %}">home</a>
     <a href="{% url "accounts:login" %}">login</a>
     <a href="{% url "accounts:logout" %}">logout</a>
     <a href="{% url "accounts:signup" %}">signup</a>
