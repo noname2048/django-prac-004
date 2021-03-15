@@ -1,0 +1,24 @@
+# /etc/systemd/system/gunicorn.service
+
+[Unit]
+Desciption=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/askbanana/django_project
+ExecStart=gunicorn \
+    --workers 3 \
+    --bind unix:/tmp/gunicorn.sock \
+    mysite.wsgi:application
+    #--certfile=/home/ubuntu/cert/www_noname2048_dev.crt \
+    #--keyfile=/home/ubuntu/cert/private.pem \
+
+[Install]
+WantedBy=multi-user.target
+
+# sudo systemctl start gunicorn
+# sudo systemctl enable gunicorn
+# sudo systemctl daemon-reload
+# sudo systemctl restart gunicorn
