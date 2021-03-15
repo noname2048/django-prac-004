@@ -16,11 +16,13 @@ Django 연습 레포 입니다.
 
 ### 1.2 구현된 기능
 
-* circleci + python manage.py test (메인 화면 테스트)
-* default DB: AWS RDS (postgres)
-* FileField: AWS S3 (django-storages, boto3)
-* Codecov 연동
-
+* circleci + python manage.py test
+* postgres (aws rdb)
+* media file (aws s3, file field) `django-storages` `boto3`
+* code test coverage `codecov`
+* aws application load balance `aws alb`
+* client - (ssl) - alb - (http) - nginx - (socket) - gunicorn - (wsgi) - django
+ 
 ### 1.3 구현할 기능
 
 * CD(Continuos Delivery) DA(deploy automation?)
@@ -28,14 +30,14 @@ Django 연습 레포 입니다.
 * memory nosql: redis (aws elasticache)
 * disk nosql: mongodb
 * static files: aws s3 : cloudfront
-* media S3 : aws s3
-* test 경험 :unittest, pytest
-* JWT 토큰
+* test 경험: (unittest), pytest
+* JWT 토큰 - 프론트 지원
+* restframe work - 우리집 책장
 * 비동기 태스크 큐: celery - sendgrid(mail)
-* images와 files 분리된 버킷에 업로드
+* 특정 images field 와 file field 를 분리된 버킷에 업로드
 * multiDB로 여러가지 DB 한꺼번에 써보기
-* product 에서 nginx(http), gunicorn(socket), django(wsgi) 쓰기
 * redis와 mongodb 연결하기
+* autoscale with eks
 
 ## 2 테스트용 서버 실행
 
@@ -73,21 +75,21 @@ docker-compose up --build .
 
 ### 3.1 formatter 를 이용한 정리
 
-formatter|대상
----|---
-black: python
-prettier: html, js
+대상 | formatter
+--- | ---
+`python` | `black`
 
 ### 3.2 커밋 메세지 관련 (중요하지 않음)
 
-(commit message abbreviation)
-`20.03.11: v3`
-기호|prefix|postfix
----|---|---
-\+|new file|feature added|
-\-|file removed|feature removed|
-\#||updated
-\>|file moved|
+#### 3.2.1 commit message abbreviation
+
+`20.03.15: v4`
+prefix | 기호 | feature | 기호 | postfix
+--- | --- | --- | --- | ---
+newfile | `+` | readme | `+` | feature added
+file removed | `-` | readme | `-` | feature removed
+&nbsp; | &nbsp; | readme | `#` | feature updated 
+file moved | `~` | readme | &nbsp; | &nbsp;
 
 ## 4. 배포환경
 
