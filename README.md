@@ -114,12 +114,13 @@ prettier: html, js
 python에서 env를 가져오는 4가지 방법중에, 키가 없으면 오류가 나는 방식을 채택하였습니다. \
 KeyError 오류가 난다면 해당 키 항목의 키 체크가 필요합니다.
 
-```python
-# <key> <default_value> is abstarcted
+`<key>` `<default_value>` 는 임의의 str 값이라 가정합니다. \
+(ex `"HOST"` `"*"`)
 
-# 함수의 원형 os.getenv("<key>", default=None) 
-os.getenv("<key>") # IF_NOT: "None"
-os.getenv("<key>", "<default_value>") # IF_NOT: "<default_value>"
-os.environ["<key>"] # IF_NOT: KeyError raise # This repo choose this method
-os.environ.get("key") # IF_NOT: "None"
-```
+참조방법 | 키가 없을때 | 비고
+---|---|---
+`os.getenv("<key>")` | None |
+`os.getenv("<key>", "<default_value>")` | `<default_value>` |
+`os.environ["<key>"]` | KeyError raised | Choose this method
+`os.environ.get("<key>")` | None | 
+`os.environ.get("<key>", "<default_value>")` | `"<default_value>"` |
