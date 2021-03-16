@@ -26,13 +26,13 @@ jobs:
     - run:
         name: migrate
         command: |
-          cd ~/django_project
+          cd ~/project/django_project
           python manage.py migrate
           python manage.py inituser
     - run:
         name: send to codecov
         command: |
-          cd ~/django_project
+          cd ~/project/django_project
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
