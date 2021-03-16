@@ -1,2 +1,2 @@
 docker_volume_data
-.env
+*.env

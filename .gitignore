@@ -36,3 +36,6 @@ coverage.xml
 
 # something just cache in development file
 **/*old*
+
+# docker volumes
+docker_volumes
