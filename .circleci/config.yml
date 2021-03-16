@@ -16,9 +16,19 @@ jobs:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
-    working_directory: /askbanana/django_project # ~/project # default
+    working_directory: / # ~/project # default
     
     steps:
+    - checkout
+    - run:
+      name: wait
+      command: sleep 10
+    - run:
+      name: migrate
+      command: |
+        cd /django-prac-004/django_project
+        python manage.py migrate
+        python manage.py inituser
     - run:
         name: send to codecov
         command: |
