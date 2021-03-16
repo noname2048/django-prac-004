@@ -24,12 +24,12 @@ jobs:
     - run:
         name: docker compose up
         command: |
-          cd ~/django_project
+          cd ~/project/django-prac-004
           docker-compose -f ./dockerfiles/Dockerfile.django.dev up
     - run:
         name: send to codecov
         command: |
-          cd ~/django_project
+          cd ~/project/django-prac-004
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
