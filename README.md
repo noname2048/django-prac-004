@@ -58,12 +58,11 @@ python manage.py runserver 에서 필요한 환경변수는 다음과 같습니�
 
 키 | 관련 | 비고
 ---|---|---
-DJANGO_SECRET_KEY | 장고 기본
-PRODUCT_DB_POSTGRES_HOST | AWS DB
-PRODUCT_DB_NAME | AWS DB
-PRODUCT_DB_PASSWORD | AWS DB
-AWS_ACCESS_KEY_ID | AWS S3
-AWS_SECRET_ACCESS_KEY | AWS S3
+DEBUG_DJANGO_SECRECT_KEY | 장고 기본
+DEBUG_POSTGRES_DB_PASSWORD | docker: postgres
+DEBUG_S3_AWS_ACCESS_KEY_ID | AWS S3
+DEBUG_S3_AWS_SECRET_ACCESS_KEY | AWS S3
+DEBUG_S3_AWS_STORAGE_BUCKET_NAME | AWS S3
 
 ### 2.3 도커 컴포즈 파일로 실행
 
@@ -103,6 +102,16 @@ file moved | `~` | readme | &nbsp; | &nbsp;
 3. circleci -> aws s3 (code)
    
 ### 4.2 배포용 환경변수
+
+* PRODUCT_DJANGO_SECRECT_KEY
+* PRODUCT_DJANGO_ALLOWED_HOSTS
+* PRODUCT_POSTGRES_DB_HOST
+* PRODUCT_POSTGRES_DB_USER
+* PRODUCT_POSTGRES_DB_PORT
+* PRODUCT_POSTGRES_DB_PASSWORD
+* PRODUCT_DJANGO_SUPERUSER_NAME
+* PRODUCT_DJANGO_SUPERUSER_EMAIL
+* PRODUCT_DJANGO_SUPERUSER_PASSWORD
 
 #### 4.2.1 circleci
 
