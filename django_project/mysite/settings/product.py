@@ -84,12 +84,12 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 DATABASES = {
     "default": {
-        "NAME": "product_postgres",
         "ENGINE": "django.db.backends.postgresql",
         "HOST": os.environ["PRODUCT_POSTGRES_DB_HOST"],
         "USER": os.environ["PRODUCT_POSTGRES_DB_USER"],
         "PORT": os.environ["PRODUCT_POSTGRES_DB_PORT"],
         "PASSWORD": os.environ["PRODUCT_POSTGRES_DB_PASSWORD"],
+        "NAME": "postgres",
     }
 }
 
@@ -138,7 +138,13 @@ STATIC_ROOT = BASE_DIR.parent / "static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR.parent / "media/"
 
+# User
 AUTH_USER_MODEL = "accounts.User"
+FIRST_USER = {
+    "username": os.environ["PRODUCT_DJANGO_SUPERUSER_NAME"],
+    "email": os.environ["PRODUCT_DJANGO_SUPERUSER_EMAIL"],
+    "password": os.environ["PRODUCT_DJANGO_SUPERUSER_PASSWORD"],
+}
 
 # Storages
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"

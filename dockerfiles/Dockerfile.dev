@@ -1,8 +1,19 @@
 FROM python:3.9.2
 LABEL description="개발용 장고 도커 파일"
 
-RUN apt-get update && apt-get install -y vim
+# apt
+RUN apt-get update && apt-get install -y vim wget
 
+# dockerize
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+# wait-for-it
+RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+
+# requirements
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 

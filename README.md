@@ -29,15 +29,18 @@ Django 연습 레포 입니다.
 * Replica RDB (RDB failover...?)
 * memory nosql: redis (aws elasticache)
 * disk nosql: mongodb
-* static files: aws s3 : cloudfront
+* static files: aws s3 : cloudfront?
 * test 경험: (unittest), pytest
 * JWT 토큰 - 프론트 지원
-* restframe work - 우리집 책장
+* restframework - 우리집 책장 API
 * 비동기 태스크 큐: celery - sendgrid(mail)
 * 특정 images field 와 file field 를 분리된 버킷에 업로드
 * multiDB로 여러가지 DB 한꺼번에 써보기
 * redis와 mongodb 연결하기
 * autoscale with eks
+* SEO (search engine optimization: root.txt 외 기타)
+* tailwind 도입
+* 프론트 + vercel
 
 ## 2 테스트용 서버 실행
 
@@ -121,8 +124,8 @@ KeyError 오류가 난다면 해당 키 항목의 키 체크가 필요합니다.
 
 참조방법 | 키가 없을때 | 비고
 ---|---|---
-`os.getenv("<key>")` | None |
-`os.getenv("<key>", "<default_value>")` | `<default_value>` |
-`os.environ["<key>"]` | KeyError raised | Choose this method
-`os.environ.get("<key>")` | None | 
-`os.environ.get("<key>", "<default_value>")` | `"<default_value>"` |
+`os.getenv(<key>)` | None |
+`os.getenv(<key>, <default_value>)` | `<default_value>` |
+`os.environ[<key>]` | KeyError raised | Choose this method
+`os.environ.get(<key>)` | None | 
+`os.environ.get(<key>, <default_value>)` | `<default_value>` |

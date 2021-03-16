@@ -88,12 +88,12 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 DATABASES = {
     "default": {
-        "NAME": "debug_postgres",
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": "localhost",
+        "HOST": "postgres_container",
         "USER": "postgres",
-        "PORT": 5431,
+        "PORT": 5432,
         "PASSWORD": os.environ["DEBUG_POSTGRES_DB_PASSWORD"],
+        "NAME": "postgres",
     }
 }
 
@@ -142,7 +142,13 @@ STATIC_ROOT = BASE_DIR.parent / "static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR.parent / "media/"
 
+# User
 AUTH_USER_MODEL = "accounts.User"
+FIRST_USER = {
+    "username": "admin",
+    "email": "sungwook.csw@gmail.com",
+    "password": "admin",
+}
 
 # Storages
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"

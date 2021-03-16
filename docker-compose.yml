@@ -1,13 +1,6 @@
-# 개발용 도커파일
-
-# postgres 5431:5432 로 띄우기
-# redis 6378:6379 로 띄우기
+# purpose: development
+# docker-compose -f <file_path> --no-cache up
 version: "3.8"
-
-volumes:
-  postgres_container_volume: {}
-  redis_container_volume: {}
-  django_container_volume: {}
 
 services:
   postgres_container:
@@ -15,9 +8,11 @@ services:
     ports:
       - 5431:5432
     volumes:
-      - postgres_container_volume:/var/lib/postgresql/data
+      - ./docker_volumes/postgres_container_volume:/var/lib/postgresql/data
     environment: 
-      - POSTGRES_PASSWORD=fortest
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
   redis_container:
@@ -25,7 +20,12 @@ services:
     ports:
       - 6378:6379
     volumes:
-      - redis_container_volume:/data
+      - ./docker_volumes/redis_container_volume:/data
+    command:
+      - /bin/bash
+      - -c
+      - |
+        redis-server --appendonly yes --requirepass "redis"
 
   django_container:
     depends_on:
@@ -33,16 +33,25 @@ services:
       - redis_container
     build:
       context: .
-      dockerfile: ./dockerfiles/dockerDockerfile.dev
+      dockerfile: ./dockerfiles/Dockerfile.dev
     ports:
       - "8000:8000"
     volumes:
-      - ./:/django_prac
+      - ./:/askbanana
     env_file: 
       .env
-    command: |      
-      bash -c 'while !</dev/tcp/db/5432; do sleep 1; done;'
-      cd /django_prac/django_project
-      python manage.py migrate
-      python manage.py inituser
-      python manage.py runserver 0:8000
+    command:
+      - /bin/bash
+      - -c
+      - | 
+        dockerize -wait tcp://postgres_container:5432 -timeout 15s
+        dockerize -wait tcp://redis_container:6379 -timeout 15s
+        cd /askbanana/django_project
+        python manage.py migrate
+        python manage.py inituser
+        python manage.py runserver 0:8000
+
+      # /bin/bash -c 'while !</dev/tcp/postgres_container/5432; do sleep 2; done;'
+      # dockerize -wait tcp://postgres_container:5432 -timeout 15s
+      # dockerize -wait tcp://redis:6379 -timeout 15s
+      # ./wait-for-it.sh postgres_container:5432 --echo "postgres up"
