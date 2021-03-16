@@ -11,31 +11,25 @@ jobs:
     environment:
       DEBUG: "False"
       DB: "local"
-    working_directory: /askbanana/django_project # ~/project # default
+    # working_directory: /askbanana/django_project # ~/project # default
+    working_directory: ~/project
     steps:
-    # - checkout
-    # - run:
-    #     name: pip install
-    #     command: | # multiline string
-    #       pip install --upgrade pip 
-    #       pip install -r requirements.txt
-    # - run:
-    #     name: env set
-    #     command:
-    #       echo $SECRET > .secrets.json
-    # - run:
-    #     name: manage.py test
-    #     command: |
-    #       cd django_project
-    #       python manage.py test
-    # - run:
-    #     name: read file dir
-    #     command:
-    #       ls -al >> a.txt && 
-    #       cat a.txt
+    - checkout
+    - run:
+        name: Install Docker Compose
+        command: |
+          curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+          chmod +x ~/docker-compose
+          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+    - run:
+        name: docker compose up
+        command: |
+          cd ~/project/django-prac-004
+          docker-compose -f ./dockerfiles/Dockerfile.django.dev up
     - run:
         name: send to codecov
         command: |
+          cd django-prac-004/django_project
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
