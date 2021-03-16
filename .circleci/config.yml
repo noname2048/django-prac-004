@@ -21,14 +21,14 @@ jobs:
     steps:
     - checkout
     - run:
-      name: wait
-      command: sleep 10
+        name: wait
+        command: sleep 10
     - run:
-      name: migrate
-      command: |
-        cd /django-prac-004/django_project
-        python manage.py migrate
-        python manage.py inituser
+        name: migrate
+        command: |
+          cd /django-prac-004/django_project
+          python manage.py migrate
+          python manage.py inituser
     - run:
         name: send to codecov
         command: |
