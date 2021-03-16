@@ -33,7 +33,7 @@ services:
       - redis_container
     build:
       context: .
-      dockerfile: ./dockerfiles/Dockerfile.dev
+      dockerfile: ./dockerfiles/Dockerfile.django.dev
     ports:
       - "8000:8000"
     volumes:
