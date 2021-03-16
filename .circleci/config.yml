@@ -24,7 +24,7 @@ jobs:
     - run:
         name: docker compose up
         command: |
-          cd ~/django-prac-004
+          cd ~/django_project
           docker-compose -f ./dockerfiles/Dockerfile.django.dev up
     - run:
         name: send to codecov
