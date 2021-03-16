@@ -11,20 +11,23 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY =
+SECRET_KEY = os.environ["PRODUCT_DJANGO_SECRECT_KEY"]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG =
+DEBUG = True
 
-# ALLOWED_HOSTS =
+ALLOWED_HOSTS = os.environ["PRODUCT_DJANGO_ALLOWED_HOSTS"].split(",")
+
+INTERNAL_IPS = []
 
 # Application definition
 INSTALLED_APPS = [
@@ -34,11 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # +
+    # contrib
     "django.contrib.humanize",
-    # 3rd apps
+    # pypi
     "storages",
-    # apps
+    # myapps
     "accounts",
     "forum",
 ]
@@ -75,17 +78,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
+
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "NAME": "product_postgres",
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.environ["PRODUCT_POSTGRES_DB_HOST"],
+        "USER": os.environ["PRODUCT_POSTGRES_DB_USER"],
+        "PORT": os.environ["PRODUCT_POSTGRES_DB_PORT"],
+        "PASSWORD": os.environ["PRODUCT_POSTGRES_DB_PASSWORD"],
+    }
+}
 
-# AUTH_USER_MODEL = "accounts.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -108,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Seoul"
@@ -122,14 +128,22 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "mysite" / "static/",
 ]
 STATIC_ROOT = BASE_DIR.parent / "static/"
 
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR.parent / "media/"
 
 AUTH_USER_MODEL = "accounts.User"
+
+# Storages
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+
+AWS_ACCESS_KEY_ID = os.environ["PRODUCT_S3_AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY = os.environ["PRODUCT_S3_AWS_SECRET_ACCESS_KEY"]
+AWS_STORAGE_BUCKET_NAME = os.environ["PRODUCT_S3_AWS_STORAGE_BUCKET_NAME"]

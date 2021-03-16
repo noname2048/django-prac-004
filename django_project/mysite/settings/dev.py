@@ -8,14 +8,6 @@ load_dotenv(dotenv_path=env_path)
 
 DEBUG = True
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-# try:
-#     import json
-#     from django.core.exceptions import ImproperlyConfigured
-
-#     SECRET_DIR = BASE_DIR.parent / ".secrets.json"
-#     SECRET_KEY = json.load(open(SECRET_DIR))["DJANGO_SECRET_KEY"]
-# except:
-#     raise ImproperlyConfigured("[DEV] SECRET_KEY NOT FOUND! ")
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -24,6 +16,34 @@ ALLOWED_HOSTS = [
 INTERNAL_IPS = [
     "localhost",
 ]
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {}
+
+default = {
+    "ENGINE": "django.db.backends.sqlite3",
+    "NAME": BASE_DIR / "db.sqlite3",
+}
+
+postgres = {
+    "NAME": "postgres",
+    "ENGINE": "django.db.backends.postgresql",
+    "USER": "postgres",
+    "PASSWORD": "example",
+    "HOST": "localhost",
+    "PORT": 5431,
+}
+
+product_postgres = {
+    "NAME": "postgres",
+    "ENGINE": "django.db.backends.postgresql",
+    "USER": "postgres",
+    "HOST": os.environ["PRODUCT_DB_POSTGRES_HOST"],
+    "PASSWORD": os.environ["PRODUCT_DB_PASSWORD"],
+    "PORT": 5432,
+}
 
 DB = os.getenv("DB", default="default")
 if DB == "local":
