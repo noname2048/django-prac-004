@@ -14,7 +14,7 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt .
 RUN apt-get update && pip install -r requirements.txt
 
-COPY ./django_project ./askbanana/django_project
+COPY ./django_project /askbanana/django_project
 WORKDIR /askbanana/django_project
 
 CMD ["/bin/bash"]
