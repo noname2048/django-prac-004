@@ -1,46 +1,48 @@
+# 개발용 도커파일
+
+# postgres 5431:5432 로 띄우기
+# redis 6378:6379 로 띄우기
 version: "3.8"
 
-# 개발 환경용 도커파일 만들기
 volumes:
-  dev_db: {}
+  postgres_container_volume: {}
+  redis_container_volume: {}
+  django_container_volume: {}
 
 services:
-  docker_postgres_db: # postgres_db
+  postgres_container:
     image: postgres
-    volumes:
-      - dev_db:/var/lib/postgresql/data
     ports:
       - 5431:5432
+    volumes:
+      - postgres_container_volume:/var/lib/postgresql/data
     environment: 
-      - POSTGRES_PASSWORD=example
+      - POSTGRES_PASSWORD=fortest
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
-  wsa: # web server application
+  redis_container:
+    image: redis
+    ports:
+      - 6378:6379
+    volumes:
+      - redis_container_volume:/data
+
+  django_container:
     depends_on:
-      - docker_postgres_db
+      - postgres_container
+      - redis_container
     build:
-      image: django_banana
-      # context: .
-      # dockerfile: ./Dockerfile.dev
+      context: .
+      dockerfile: ./dockerfiles/dockerDockerfile.dev
+    ports:
+      - "8000:8000"
     volumes:
       - ./:/django_prac
-    ports:
-      - "8000:8000" 
-    environment:
-      - DJANGO_DEBUG=True
-      - DJANGO_DB_HOST=db
-      - DJANGO_DB_PORT=5432
-      - DJANGO_DB_NAME=postgres
-      - DJANGO_DB_USERNAME=postgres
-      - DJANGO_DB_PASSWORD=example
-    command: 
-      - bash
-      - -c
-      - |
-        bash -c 'while !</dev/tcp/db/5432; do sleep 1; done;'
-        cd /django_prac
-        source .env
-        cd /django_prac/django_project
-        python manage.py migrate
-        python manage.py inituser
-        python manage.py runserver 0:8000
+    env_file: 
+      .env
+    command: |      
+      bash -c 'while !</dev/tcp/db/5432; do sleep 1; done;'
+      cd /django_prac/django_project
+      python manage.py migrate
+      python manage.py inituser
+      python manage.py runserver 0:8000
