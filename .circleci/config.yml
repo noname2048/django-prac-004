@@ -10,28 +10,14 @@ jobs:
         password: $DOCKERHUB_PASSWORD
 
     - image: postgres
-      ports:
-        - 5431:5432
-      volumes:
-        - ./docker_volumes/postgres_container_volume:/var/lib/postgresql/data
-      environment: 
-        - POSTGRES_DB=postgres
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - POSTGRES_INITDB_ARGS=--encoding=UTF-8
-
-    - image: redis
-      ports:
-        - 6378:6379
-      volumes:
-        - ./docker_volumes/redis_container_volume:/data
-      command:
-        - /bin/bash
-        - -c
-        - |
-          redis-server --appendonly yes --requirepass "redis"
+      environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
     working_directory: /askbanana/django_project # ~/project # default
+    
     steps:
     - run:
         name: send to codecov
