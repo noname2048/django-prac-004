@@ -16,7 +16,7 @@ jobs:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
-    working_directory: / # ~/project # default
+    working_directory: ~/project # ~/project # default
     
     steps:
     - checkout
@@ -26,12 +26,13 @@ jobs:
     - run:
         name: migrate
         command: |
-          cd /django-prac-004/django_project
+          cd ~/django_project
           python manage.py migrate
           python manage.py inituser
     - run:
         name: send to codecov
         command: |
+          cd ~/django_project
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
