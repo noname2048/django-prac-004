@@ -23,7 +23,7 @@ SECRET_KEY = os.environ["PRODUCT_DJANGO_SECRECT_KEY"]
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = os.environ["PRODUCT_DJANGO_ALLOWED_HOSTS"].split(",")
 

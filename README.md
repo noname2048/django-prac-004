@@ -7,6 +7,8 @@ Django 연습 레포 입니다.
 
 ## 1 서버개요
 
+다이어그램
+
 ### 1.1 메인 기술 스택
 
 * `Django: 3.1.5`
@@ -19,7 +21,7 @@ Django 연습 레포 입니다.
 * circleci + python manage.py test
 * postgres (aws rdb)
 * media file (aws s3, file field) `django-storages` `boto3`
-* code test coverage `codecov`
+* test coverage `codecov`
 * aws application load balance `aws alb`
 * client - (ssl) - alb - (http) - nginx - (socket) - gunicorn - (wsgi) - django
  
@@ -41,37 +43,34 @@ Django 연습 레포 입니다.
 * SEO (search engine optimization: root.txt 외 기타)
 * tailwind 도입
 * 프론트 + vercel
+* 문자 인증
+* google 혹은 github 로그인
+* github혹은 discus 덧글 지원기능
 
 ## 2 테스트용 서버 실행
 
+테스트 서버 다이어 그램
+
 ### 2.1 테스트 환경
 
-* python manage.py runserver 을 이용하여 테스트
-* 로컬에 postgresql 을 5431 로 띄워 테스트 (5432는 이미 설치된 postgresql 이 있다고 가정)
-* 테스트에서 바로 프로덕션 S3 접속 (나중에 공부해서 분리)
-* Redis 준비
+* 레포 루트에서 `docker-compose up` 을 이용하여 테스트
+* 장고 환경(컨테이너)은 `Docerfile.django.dev` 이용하여 직접 빌드
+* 로컬에 postgresql 을 5431:5432 로 띄워 테스트
+* redis-server 6378:6379 로 테스트
+* static과 media 파일은 S3 이용
 
 ### 2.2 테스트 환경변수
 
-local에서는 pypi의 dotenv를 사용하여 프로젝트 폴더의 .env를 읽습니다.
-python manage.py runserver 에서 필요한 환경변수는 다음과 같습니다.
+docker-compose.yml 에서 장고 컨테이너 up 시에 레포루트의 .env 를 참조함 (클론시 생성필요)
 
-키 | 관련 | 비고
----|---|---
-DEBUG_DJANGO_SECRECT_KEY | 장고 기본
-DEBUG_POSTGRES_DB_PASSWORD | docker: postgres
-DEBUG_S3_AWS_ACCESS_KEY_ID | AWS S3
-DEBUG_S3_AWS_SECRET_ACCESS_KEY | AWS S3
-DEBUG_S3_AWS_STORAGE_BUCKET_NAME | AWS S3
+장고 기본 \
+`DEBUG_DJANGO_SECRECT_KEY`
 
-### 2.3 도커 컴포즈 파일로 실행
+도커 관련 \
+`DEBUG_POSTGRES_DB_HOST` `DEBUG_POSTGRES_DB_USER` `DEBUG_POSTGRES_DB_PORT` `DEBUG_POSTGRES_DB_PASSWORD`
 
-dockerfile 내부의 docker-compose.dev.yml 를 프로젝트 파일 아래의 docker-compose.yml 로 변경
-이후 up 명령어 실행
-
-```bash
-docker-compose up --build .
-```
+ASW IAM 관련 \
+`DEBUG_S3_AWS_ACCESS_KEY_ID` `DEBUG_S3_AWS_SECRET_ACCESS_KEY` `DEBUG_S3_AWS_STORAGE_BUCKET_NAME`
 
 ## 3 Version Control System 관련사항
 
@@ -95,6 +94,8 @@ file moved | `~` | readme | &nbsp; | &nbsp;
 
 ## 4. 배포환경
 
+배포 다이어그램
+
 ### 4.1 배포과정
 
 1. git push
@@ -102,6 +103,8 @@ file moved | `~` | readme | &nbsp; | &nbsp;
 3. circleci -> aws s3 (code)
    
 ### 4.2 배포용 환경변수
+
+현재는 ec2에 직접 scp로 .env 파일 전달하여 systemd service 파일에 EnvironmentFile 로 전달
 
 * PRODUCT_DJANGO_SECRECT_KEY
 * PRODUCT_DJANGO_ALLOWED_HOSTS
@@ -113,13 +116,13 @@ file moved | `~` | readme | &nbsp; | &nbsp;
 * PRODUCT_DJANGO_SUPERUSER_EMAIL
 * PRODUCT_DJANGO_SUPERUSER_PASSWORD
 
-#### 4.2.1 circleci
+### 4.3 nginx 관련
 
---
 
-#### 4.2.2 aws ec2
 
---
+### 4.4 gunicorn 관련
+
+
 
 ## 5 오류처리
 
