@@ -39,3 +39,6 @@ coverage.xml
 
 # docker volumes
 docker_volumes
+
+# node_modules
+node_modules

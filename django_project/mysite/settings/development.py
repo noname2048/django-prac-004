@@ -154,6 +154,15 @@ FIRST_USER = {
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
+AWS_REGION = "ap-northeast-2"
+AWS_STORAGE_BUCKET_NAME = os.environ["DEBUG_S3_AWS_STORAGE_BUCKET_NAME"]
+
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com"
+
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+AWS_DEFAULT_ACL = "public-read"
+
 AWS_ACCESS_KEY_ID = os.environ["DEBUG_S3_AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["DEBUG_S3_AWS_SECRET_ACCESS_KEY"]
-AWS_STORAGE_BUCKET_NAME = os.environ["DEBUG_S3_AWS_STORAGE_BUCKET_NAME"]
