@@ -144,6 +144,8 @@ MEDIA_ROOT = BASE_DIR.parent / "media/"
 
 # User
 AUTH_USER_MODEL = "accounts.User"
+LOGIN_REDIRECT_URL = "/"
+
 FIRST_USER = {
     "username": "admin",
     "email": "sungwook.csw@gmail.com",

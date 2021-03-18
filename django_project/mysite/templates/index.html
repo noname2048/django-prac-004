@@ -34,9 +34,9 @@
                     <a class="text-gray-500 hover:text-gray-900" href="{% url "index" %}">home</a>
                 </nav>
                 <div class="flex items-center justify-between">
-                    <a class="text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}">login</a>
-                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:logout" %}">logout</a>
-                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:signup" %}">signup</a>
+                    <a class="text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}?next={% if next %}{{ next }}{% else %}{{ request.path }}{% endif %}">login</a>
+                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:logout" %}?next={{ request.path }}">logout</a>
+                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:signup" %}?next={{ request.path }}">signup</a>
                 </div>
             </div>
         </div>

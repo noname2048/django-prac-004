@@ -6,7 +6,9 @@ from django.contrib import messages
 from . import forms as accounts_forms
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.utils.http import url_has_allowed_host_and_scheme
+import logging
 
+logger = logging.getLogger("django.server")
 # login_view = LoginView.as_view(template_name="accounts/login.html")
 
 
@@ -31,41 +33,54 @@ class AccountLoginView(LoginView):
     #         return super().get_redirect_url()
 
 
-login_view = AccountLoginView.as_view()
+login_view2 = AccountLoginView.as_view()
 
 
-def login_view2(request):
+def login_view(request):
     if request.method == "GET":
 
         if request.user.is_authenticated:
-            next_url = request.META.get("HTTP_REFERER", "None")
-            messages.info(request, next_url)
-            return redirect(resolve_url("index"))
-            next_url = request.META.get("HTTP_REFERER", resolve_url("index"))
-            if next_url == resolve_url("accounts:login"):
-                messages.info(request, next_url)
-                return redirect(resolve_url("index"))
-            return redirect(next_url)
+            next = request.GET.get("next", None)
+            if next:
+                return redirect(next)
+            else:
+                next = request.META.get("HTTP_REFERER", "None")
 
-        form = AuthenticationForm()
+                if next:
+                    return redirect(next)
 
-        return render(
-            request,
-            "accounts/login.html",
-            {
-                "form": form,
-            },
-        )
+                else:
+                    return redirect(resolve_url("index"))
+        else:
+            form = AuthenticationForm()
+            next = request.GET.get("next", None)
+
+            return render(
+                request,
+                "accounts/login.html",
+                {
+                    "form": form,
+                    "next": next,
+                },
+            )
 
     if request.method == "POST":
-        form = AuthenticationForm(request.POST)
+        # messages.info(request, "aaaa")
+        # logger.info("aaaa")
+
+        if request.user.is_authenticated:
+            return redirect(resolve_url("index"))
+
+        form = AuthenticationForm(data=request.POST)
 
         if form.is_valid():
-            user = authenticate(username=username)
-            auth_login(request, form.get_user())
+            user = authenticate(
+                request, username=form.get_user(), password=request.POST.get("password")
+            )
+            auth_login(request, user)
 
             next_url = request.META.get("HTTP_REFERER", None)
-            if next_url == "/accounts/login/":
+            if next_url == resolve_url("accounts:login"):
                 return redirect(resolve_url("index"))
             else:
                 return redirect(next_url)
