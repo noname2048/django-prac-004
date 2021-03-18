@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static "favicon-32x32.png" %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "tailwind.css" %}">
     <title>noname2048.dev</title>
 </head>
 <body>
@@ -16,12 +17,30 @@
         {{ message }}
     {% endfor %}
 
-    <h1>SERVER: ROOT</h1>
+    <h1>SERVER: INDEX</h1>
     <img src="{% static "popcat.jpg" %}" alt="popcat" style="height:10rem;">
     <a href="{% url "index" %}">home</a>
     <a href="{% url "accounts:login" %}">login</a>
     <a href="{% url "accounts:logout" %}">logout</a>
     <a href="{% url "accounts:signup" %}">signup</a>
+
+    <div class="relative bg-gray">
+        <div class="px-20">
+            <div class="flex justify-between items-center border-b-2 border-gray-100 py-6">
+                <div class="flex items-center">
+                    <span class="text-gray-500">noname2048.dev</span>
+                </div>
+                <nav>
+                    <a class="text-gray-500 hover:text-gray-900" href="{% url "index" %}">home</a>
+                </nav>
+                <div class="flex items-center justify-between">
+                    <a class="text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}">login</a>
+                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:logout" %}">logout</a>
+                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:signup" %}">signup</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% block content %}
     {% endblock content %}
