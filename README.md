@@ -24,7 +24,7 @@ Django 연습 레포 입니다.
 * test coverage `codecov`
 * aws application load balance `aws alb`
 * client - (ssl) - alb - (http) - nginx - (socket) - gunicorn - (wsgi) - django
- 
+* postcss를 이용한 tailwind 도입
 ### 1.3 구현할 기능
 
 * CD(Continuos Delivery) DA(deploy automation?)
@@ -41,7 +41,6 @@ Django 연습 레포 입니다.
 * redis와 mongodb 연결하기
 * autoscale with eks
 * SEO (search engine optimization: root.txt 외 기타)
-* tailwind 도입
 * 프론트 + vercel
 * 문자 인증
 * google 혹은 github 로그인
