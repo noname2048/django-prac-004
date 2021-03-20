@@ -1,7 +1,24 @@
 {% if form %}
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.non_field_errors }}
+
+    {% for hidden_field in form.hidden_fields %}
+      {{ hidden_field.errors }}
+      {{ hidden_field }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+      <tr>
+        <th>{{ field.label_tag }}</th>
+        <td>
+          {{ field.errors }}
+          {{ field }}
+          {{ field.help_text }}
+        </td>
+      </tr>
+    {% endfor %}
+    
     <button type="submit">{{ submit_label | default:"submit" }}</button>
     <button type="button" onclick="history.go(-1)">취소</button>
 </form>
