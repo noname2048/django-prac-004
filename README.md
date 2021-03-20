@@ -12,9 +12,11 @@ Django 연습 레포 입니다.
 ### 1.1 메인 기술 스택
 
 * `Django: 3.1.5`
-* `PostgresSQL: 12.5`
-* `CircleCi: 2.1`
-* `Codecov: py-v2.1.11`
+* `postgresSQL: 12.5`
+* `circleci: 2.1`
+* `codecov: py-v2.1.11`
+* `docker v20.10.6`
+* `docker-compose v1.25.5` `compose file format 3.8`
 
 ### 1.2 구현된 기능
 
