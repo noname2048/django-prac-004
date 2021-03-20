@@ -18,6 +18,13 @@ Django 연습 레포 입니다.
 
 ### 1.2 구현된 기능
 
+#### 1.2.1 서버 내부관련 기능
+
+* 로그인
+* 비밀번호 찾기 (구현중)
+
+#### 1.2.2 서버 외부관련 기능
+
 * circleci + python manage.py test
 * postgres (aws rdb)
 * media file (aws s3, file field) `django-storages` `boto3`
@@ -25,6 +32,7 @@ Django 연습 레포 입니다.
 * aws application load balance `aws alb`
 * client - (ssl) - alb - (http) - nginx - (socket) - gunicorn - (wsgi) - django
 * postcss를 이용한 tailwind 도입
+
 ### 1.3 구현할 기능
 
 * CD(Continuos Delivery) DA(deploy automation?)
@@ -45,6 +53,9 @@ Django 연습 레포 입니다.
 * 문자 인증
 * google 혹은 github 로그인
 * github혹은 discus 덧글 지원기능
+* google analytics
+* EKS
+* subdomain
 
 ## 2 테스트용 서버 실행
 
