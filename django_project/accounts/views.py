@@ -151,14 +151,16 @@ def signup_view(request):
         },
     )
 
+
 def findpass(request):
-    
+
     if request.method == "GET":
         form = FindPassForm()
-        
-        return render(request,
-                      'findpass.html',
-                      {
-                          "form": form,
-                      }
-                      
+
+        return render(
+            request,
+            "accounts/findpass.html",
+            {
+                "form": form,
+            },
+        )
