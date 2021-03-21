@@ -2,6 +2,7 @@
 
 [![django-prac-004](https://circleci.com/gh/noname2048/django-prac-004.svg?style=shield)](https://circleci.com/gh/noname2048/django-prac-004)
 [![codecov](https://codecov.io/gh/noname2048/django-prac-004/branch/main/graph/badge.svg?token=S44312H93C)](https://codecov.io/gh/noname2048/django-prac-004)
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
 Django 연습 레포 입니다.
 
@@ -12,11 +13,20 @@ Django 연습 레포 입니다.
 ### 1.1 메인 기술 스택
 
 * `Django: 3.1.5`
-* `PostgresSQL: 12.5`
-* `CircleCi: 2.1`
-* `Codecov: py-v2.1.11`
+* `postgresSQL: 12.5`
+* `circleci: 2.1`
+* `codecov: py-v2.1.11`
+* `docker v20.10.6`
+* `docker-compose v1.25.5` `compose file format 3.8`
 
 ### 1.2 구현된 기능
+
+#### 1.2.1 서버 내부관련 기능
+
+* 로그인
+* 비밀번호 찾기 (구현중)
+
+#### 1.2.2 서버 외부관련 기능
 
 * circleci + python manage.py test
 * postgres (aws rdb)
@@ -25,6 +35,7 @@ Django 연습 레포 입니다.
 * aws application load balance `aws alb`
 * client - (ssl) - alb - (http) - nginx - (socket) - gunicorn - (wsgi) - django
 * postcss를 이용한 tailwind 도입
+
 ### 1.3 구현할 기능
 
 * CD(Continuos Delivery) DA(deploy automation?)
@@ -45,7 +56,11 @@ Django 연습 레포 입니다.
 * 문자 인증
 * google 혹은 github 로그인
 * github혹은 discus 덧글 지원기능
-
+* google analytics
+* EKS
+* subdomain
+* open graph
+  
 ## 2 테스트용 서버 실행
 
 테스트 서버 다이어 그램

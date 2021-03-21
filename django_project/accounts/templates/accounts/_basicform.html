@@ -1,8 +1,30 @@
 {% if form %}
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{{ submit_label | default:"submit" }}</button>
-    <button type="button" onclick="history.go(-1)">취소</button>
-</form>
+  <div class="flex item-center justify-center bg-gray-50 w-screen">
+    <form class="w-1/3" action="" method="post" enctype="multipart/form-data">
+      <div class="rounded-md space-y-4 w-full">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field.errors }}
+          {{ hidden_field }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+          <div class="p-2">
+            <span>{{ field.label_tag }}</span>
+              <div class="border rounded-md p-1">
+                {{ field.errors }}
+                {{ field }}
+                {{ field.help_text }}
+              </div>
+          </div>
+        {% endfor %}
+        <div class="flex item-center justify-between">
+          <button class="bg-green-100 p-2 rounded w-full mt-4" type="submit">{{ submit_label | default:"submit" }}</button>
+          {% comment %} <button class="bg-green-100 p-2 rounded" type="button" onclick="history.go(-1)">취소</button> {% endcomment %}
+        </div>
+      </div>
+    </form>
+  </div>
 {% endif %}
