@@ -1,9 +1,9 @@
-version: 3.8
+version: "3.8"
 
 services:
   gunicorn-app:
     build:
-      context: .
+      context: ../
       dockerfile: ./dockerfiles/Dockerfile
     ports:
       - 8002:8005
@@ -15,5 +15,6 @@ services:
       - /bin/bash
       - -c
       - |
-        gunicorn -w 2 -b 0:8005 django_project/mysite.wsgi:application
+        cd /django-prac-004/django_project
+        gunicorn -w 2 -b 0:8005 mysite.wsgi:application
     
