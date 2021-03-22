@@ -2,9 +2,18 @@ version: 3.8
 
 services:
   gunicorn-app:
-    image: some-images
-    volumes:
-      - /home/ubuntu/django-prac-004:/django-prac-004
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
     ports:
       - 8002:8005
+    volumes:
+      - /home/ubuntu/django-prac-004:/django-prac-004
+    env_file:
+      - /home/ubuntu/django-prac-004/.env
+    command:
+      - /bin/bash
+      - -c
+      - |
+        gunicorn -w 2 -b 0:8005 django_project/mysite.wsgi:application
     
