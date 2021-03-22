@@ -6,5 +6,5 @@ services:
     volumes:
       - /home/ubuntu/django-prac-004:/django-prac-004
     ports:
-      - 8002:8000
+      - 8002:8005
     
