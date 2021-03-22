@@ -13,34 +13,33 @@
 <body>
 
     {% for message in messages %}
-        {{ message.tags }}
-        {{ message }}
+        <div>
+            {{ messsage.tags }}
+            {{ message }}
+        </div>
     {% endfor %}
 
-    <h1>SERVER: INDEX</h1>
-    <img src="{% static "popcat.jpg" %}" alt="popcat" style="height:10rem;">
-    <a href="{% url "index" %}">home</a>
-    <a href="{% url "accounts:login" %}">login</a>
-    <a href="{% url "accounts:logout" %}">logout</a>
-    <a href="{% url "accounts:signup" %}">signup</a>
-
-    <div class="relative bg-gray">
-        <div class="px-20">
-            <div class="flex justify-between items-center border-b-2 border-gray-100 py-6">
-                <div class="flex items-center">
-                    <span class="text-gray-500">noname2048.dev</span>
-                </div>
-                <nav>
-                    <a class="text-gray-500 hover:text-gray-900" href="{% url "index" %}">home</a>
-                </nav>
-                <div class="flex items-center justify-between">
-                    <a class="text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}?next={% if next %}{{ next }}{% else %}{{ request.path }}{% endif %}">login</a>
-                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:logout" %}?next={{ request.path }}">logout</a>
-                    <a class="ml-8 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 border border-transparent rounded shadow" href="{% url "accounts:signup" %}?next={{ request.path }}">signup</a>
-                </div>
+    <header class="relative bg-gray-50 px-20">
+        <div class="grid grid-cols-3 border-b-2 border-gray-200 py-6">
+            <div class="flex items-center justify-start bg-green-50 flex-grow">
+                <a class="text-gray-500 hover:text-gray-800" href="{% url "index" %}">noname2048.dev</a>
+            </div>
+            <nav class="flex items-center justify-center bg-red-50 px-2 space-x-10">
+                <a class="bg-white border rounded px-2 py-1 text-gray-500 hover:text-gray-800" href="#">home</a>
+                <a class="bg-white border rounded px-2 py-1 text-gray-500 hover:text-gray-800" href="#">forum</a>
+                <a class="bg-white border rounded px-2 py-1 text-gray-500 hover:text-gray-800" href="#">logs</a>
+                <a class="bg-white border rounded px-2 py-1 text-gray-500 hover:text-gray-800" href="#">books</a>
+            </nav>
+            <div class="flex items-center justify-end flex-grow bg-yellow-50">
+                {% if request.user.is_authenticated %}
+                    <a class="border border-transparent rounded px-2 py-1 ml-4 text-white bg-green-600 hover:bg-green-700 shadow" href="{% url "accounts:logout" %}?next={{ request.path }}">logout</a>
+                {% else %}
+                    <a class="border rounded px-2 py-1 ml-4 text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}?next={% if next %}{{ next }}{% else %}{{ request.path }}{% endif %}">login</a>
+                    <a class="border border-transparent rounded px-2 py-1 ml-4 text-white bg-indigo-600 hover:bg-indigo-700 shadow" href="{% url "accounts:signup" %}?next={{ request.path }}">signup</a>
+                {% endif %}
             </div>
         </div>
-    </div>
+    </header>
 
     {% block content %}
     {% endblock content %}
