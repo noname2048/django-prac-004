@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: ./README.md
+    destination: /home/ubuntu/deploy/django-prac-004
+hooks:
+  BeforeInstall:
+    - location: shfiles/before-install.sh
+  AfterInstall:
+    - location: shfiles/after-install.sh
+  ApplicationStart:
+    - location: shfiles/application-start.sh
+  ValidateService:
+    - location: shfiles/validate-service.sh

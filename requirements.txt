@@ -6,4 +6,3 @@ codecov==2.1.11
 django-storages==1.11.1
 gunicorn==20.0.4
 awscli==1.19.34
-`
