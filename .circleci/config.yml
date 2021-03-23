@@ -47,7 +47,7 @@ jobs:
         aws-region: AWS_DEFAULT_REGION # default
         aws-secret-access-key: CIRCLECI_DJANGO_ACESS_KEY
 
-    - aws-cli/deploy:
+    - deploy:
         name: aws deployment
         command: |
           cd ~/project
