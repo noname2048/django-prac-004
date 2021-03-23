@@ -41,12 +41,13 @@ jobs:
 
     - deploy:
         name: aws deployment
-        command: >
-          aws deploy create-deployment
-          --application-name
-          --deployment-group-name
-          --region
-          --github-location
+        command: |
+          cd ~/project
+          export LATEST_MAIN_SHA1=$(git rev-parse HEAD)
+          aws deploy create-deployment \
+          --application-name django-prac-004 \
+          --deployment-group-name askbanana \
+          --revision repository=noname2048/django-prac-004,commitId=${LATEST_MAIN_SHA1}
 
 workflows:
   version: 2
