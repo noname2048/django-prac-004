@@ -43,9 +43,9 @@ jobs:
           codecov -t $CODECOV_TOKEN
 
     - aws-cli/setup:
-        aws-access-key-id: ${CIRCLECI_DJANGO_ACESS_ID}
-        aws-region: ap-northeast-2
-        aws-secret-access-key: ${CIRCLECI_DJANGO_ACESS_KEY}
+        aws-access-key-id: CIRCLECI_DJANGO_ACESS_ID
+        aws-region: AWS_DEFAULT_REGION # default
+        aws-secret-access-key: CIRCLECI_DJANGO_ACESS_KEY
 
     - aws-cli/deploy:
         name: aws deployment
