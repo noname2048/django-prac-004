@@ -1,6 +1,9 @@
 # .circleci/config.yml
 version: 2.1
 
+orbs:
+  aws-cli: circleci/aws-cli@1.4.1
+
 jobs:
   django_prac_test:
     docker:
@@ -39,18 +42,24 @@ jobs:
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
 
-    - deploy:
+    - aws-cli/setup:
+        aws-access-key-id: ${CIRCLECI_DJANGO_ACESS_ID}
+        aws-region: ap-northeast-2
+        aws-secret-access-key: ${CIRCLECI_DJANGO_ACESS_KEY}
+
+    - aws-cli/deploy:
         name: aws deployment
         command: |
           cd ~/project
           export LATEST_MAIN_SHA1=$(git rev-parse HEAD)
+
           aws deploy create-deployment \
           --application-name django-prac-004 \
           --deployment-group-name askbanana \
-          --revision repository=noname2048/django-prac-004,commitId=${LATEST_MAIN_SHA1}
+          --github-location repository=noname2048/django-prac-004,commitId=${LATEST_MAIN_SHA1}
 
 workflows:
-  version: 2
+  version: 2.1
   django_prac_test_and_deploy: # workflow namespace
     jobs:
     - django_prac_test:
