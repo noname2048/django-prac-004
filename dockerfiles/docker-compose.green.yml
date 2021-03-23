@@ -6,7 +6,7 @@ services:
       context: ../
       dockerfile: ./dockerfiles/Dockerfile
     ports:
-      - 8001:8005
+      - 8002:8005
     volumes:
       - /home/ubuntu/django-prac-004:/django-prac-004
     env_file:

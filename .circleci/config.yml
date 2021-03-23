@@ -35,6 +35,15 @@ jobs:
           cd ~/project/django_project
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
+    # - deploy:
+    #     name: aws deployment
+    #     command: >
+    #       export MAIN_SHA1=$(git rev-parse HEAD)
+    #       aws deploy create-deployment 
+    #       --application-name django-prac-004
+    #       --deployment-group-name askbanana
+    #       --region
+    #       --github-location repository=noname2048/django-prac-004,commitId=$MAIN_SHA1
 
 workflows:
   version: 2

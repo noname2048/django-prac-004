@@ -1,0 +1,10 @@
+# 현재 사용되지 않음
+# 내부 postgres 서버 시간 및 인코딩 관련 정리
+
+FROM postgres:12.5
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+RUN sed -i 's/# ko_KR.UTF-8 UTF-8/ko_KR.UTF-8 UTF-8/' /etc/locale.gen
+
+ENV LAGN=ok_KR.utf8
+ENV LC_COLLATE=C
+ENV POSTGRES_INITDB_ARGS=--data-checksums
