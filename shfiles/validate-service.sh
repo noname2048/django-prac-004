@@ -1,1 +1,1 @@
-http GET www.noname2048.dev
+http GET localhost
