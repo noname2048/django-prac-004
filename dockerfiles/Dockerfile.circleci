@@ -1,10 +1,10 @@
-# circleci primary docker
-# pre-build for build speed
-# cd /docker-prac-004
+# CI 환경 테스트 pre-built 용 도커 (속도개선을 위함)
+
+# 아래와 같은 명령어로 빌드 & push
 # docker build -f dockerfiles/Dockerfile.circleci -t noname2048/askbanana:simple .
 # docker push noname2048/askbanana:simple
 
-FROM python:3.9.2
+FROM python:3.8.8
 LABEL version="1.0" \
     description="simple django Dockerfile"
 
