@@ -12,7 +12,6 @@ coverage = "^5.5"
 codecov = "^2.1.11"
 django-storages = "^1.11.1"
 gunicorn = "^20.0.4"
-awscli = "^1.19.34"
 
 [tool.poetry.dev-dependencies]
 Django = "^3.1.7"
@@ -21,7 +20,6 @@ coverage = "^5.5"
 codecov = "^2.1.11"
 django-storages = "^1.11.1"
 gunicorn = "^20.0.4"
-awscli = "^1.19.34"
 django-debug-toolbar = "^3.2"
 
 [build-system]
