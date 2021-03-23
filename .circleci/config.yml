@@ -1,56 +1,69 @@
-
+# .circleci/config.yml
 version: 2.1
 
+orbs:
+  aws-cli: circleci/aws-cli@1.4.1
+
 jobs:
-  simple_build: # job names
-    docker: # docker image
-    - image: noname2048/askbanana:simple
+  django_prac_test:
+    docker:
+    - image: noname2048/askbanana:simple # primary
       auth:
         username: noname2048 
         password: $DOCKERHUB_PASSWORD
 
-    - image: postgres
+    - image: postgres # secondary
       environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
-    working_directory: ~/project # ~/project # default
+    working_directory: ~/project # default: ~/project 
     
     steps:
     - checkout
+
     - run:
         name: wait
         command: sleep 10
+
     - run:
         name: migrate
         command: |
           cd ~/project/django_project
           python manage.py migrate
           python manage.py inituser
+
     - run:
         name: send to codecov
         command: |
           cd ~/project/django_project
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
-    # - deploy:
-    #     name: aws deployment
-    #     command: >
-    #       export MAIN_SHA1=$(git rev-parse HEAD)
-    #       aws deploy create-deployment 
-    #       --application-name django-prac-004
-    #       --deployment-group-name askbanana
-    #       --region
-    #       --github-location repository=noname2048/django-prac-004,commitId=$MAIN_SHA1
+
+    - aws-cli/setup:
+        aws-access-key-id: ${CIRCLECI_DJANGO_ACESS_ID}
+        aws-region: ap-northeast-2
+        aws-secret-access-key: ${CIRCLECI_DJANGO_ACESS_KEY}
+
+    - aws-cli/deploy:
+        name: aws deployment
+        command: |
+          cd ~/project
+          export LATEST_MAIN_SHA1=$(git rev-parse HEAD)
+
+          aws deploy create-deployment \
+          --application-name django-prac-004 \
+          --deployment-group-name askbanana \
+          --github-location repository=noname2048/django-prac-004,commitId=${LATEST_MAIN_SHA1}
 
 workflows:
-  version: 2
-  test_django_docker: # workflow namespace
+  version: 2.1
+  django_prac_test_and_deploy: # workflow namespace
     jobs:
-    - simple_build:
+    - django_prac_test:
         filters:
           branches:
             only:
-            - main
+              - main
