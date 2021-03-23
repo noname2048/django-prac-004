@@ -1,56 +1,59 @@
-
+# .circleci/config.yml
 version: 2.1
 
 jobs:
-  simple_build: # job names
-    docker: # docker image
-    - image: noname2048/askbanana:simple
+  django_prac_test:
+    docker:
+    - image: noname2048/askbanana:simple # primary
       auth:
         username: noname2048 
         password: $DOCKERHUB_PASSWORD
 
-    - image: postgres
+    - image: postgres # secondary
       environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
-    working_directory: ~/project # ~/project # default
+    working_directory: ~/project # default: ~/project 
     
     steps:
     - checkout
+
     - run:
         name: wait
         command: sleep 10
+
     - run:
         name: migrate
         command: |
           cd ~/project/django_project
           python manage.py migrate
           python manage.py inituser
+
     - run:
         name: send to codecov
         command: |
           cd ~/project/django_project
           coverage run ./manage.py test
           codecov -t $CODECOV_TOKEN
-    # - deploy:
-    #     name: aws deployment
-    #     command: >
-    #       export MAIN_SHA1=$(git rev-parse HEAD)
-    #       aws deploy create-deployment 
-    #       --application-name django-prac-004
-    #       --deployment-group-name askbanana
-    #       --region
-    #       --github-location repository=noname2048/django-prac-004,commitId=$MAIN_SHA1
+
+    - deploy:
+        name: aws deployment
+        command: >
+          aws deploy create-deployment
+          --application-name
+          --deployment-group-name
+          --region
+          --github-location
 
 workflows:
   version: 2
-  test_django_docker: # workflow namespace
+  django_prac_test_and_deploy: # workflow namespace
     jobs:
-    - simple_build:
+    - django_prac_test:
         filters:
           branches:
             only:
-            - main
+              - main
