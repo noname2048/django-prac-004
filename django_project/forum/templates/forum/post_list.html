@@ -1,0 +1,27 @@
+{% load humanize forum_extras %}
+
+{% if forum_posts %}
+    <table>
+        <th>id</th>
+        <th>작성자</th>
+        <th>제목</th>
+        <th>일시</th>
+        <th>조회수</th>
+        <th>추천수</th>
+        <th>덧글수</th>
+        {% for post in forum_posts %}
+            <tr style="cursor:pointer" onClick="location.href='{% url "forum:post_detail" post.id %}'">
+                <td>{{ post.id }}</td>
+                <td>{{ post.author }}</td>
+                <td>{{ post.title }}</td>
+                <td class="bg-{{ post.updated_at | time_meter }}-100">{{ post.updated_at | naturaltime }}</td>
+                <td>{{ post.id }}</td>
+                <td>{{ post.id }}</td>
+                <td>{{ post.id }}</td>
+            </tr>
+
+        {% endfor %}
+    </table>
+{% else %}
+    <p>게시글이 없습니다.</p>
+{% endif %}
