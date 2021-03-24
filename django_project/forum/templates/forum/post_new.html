@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="flex item-center justify-center bg-gray-50">
+        <form class="flex flex-col" action="{% url "forum:post_new" %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <div class="flex item-center justify-end mt-2">
+                <button class="ml-2 p-2 border rounded-md" type="submit">작성하기</button>
+                <button class="ml-2 p-2 border rounded-md" type="submit">취소</button>
+            </div>
+           
+        </form>
+    </div>
+    
+{% endblock %}
