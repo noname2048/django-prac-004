@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 @font-face{
-    font-family: 'BlackHanSans';
-    src:url('./BlackHanSans-Regular.woff2');
+    font-family: 'Black-Han-Sans';
+    src: local('Black-Han-Sans'),
+    url('./BlackHanSans-Regular.woff2') format("woff2");
 }
