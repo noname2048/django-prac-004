@@ -10,7 +10,7 @@ services:
     volumes:
       - /home/ubuntu/django-prac-004:/django-prac-004
     env_file:
-      - /home/ubuntu/django-prac-004/.env
+      - /home/ubuntu/.env
     command:
       - /bin/bash
       - -c

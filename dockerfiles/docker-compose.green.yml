@@ -8,9 +8,9 @@ services:
     ports:
       - 8002:8005
     volumes:
-      - /home/ubuntu/django-prac-004:/django-prac-004
+      - /home/ubuntu/deploy/django-prac-004:/django-prac-004
     env_file:
-      - /home/ubuntu/django-prac-004/.env
+      - /home/ubuntu/.env
     command:
       - /bin/bash
       - -c
