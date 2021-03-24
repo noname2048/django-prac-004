@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      'my': ['BlackHanSans'],
+      'my': ['Black-Han-Sans'],
     }
   },
   variants: {},
