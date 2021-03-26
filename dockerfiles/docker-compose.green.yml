@@ -20,6 +20,6 @@ services:
         cd /django-prac-004/django_project
         python manage.py migrate --settings=mysite.settings.product
         gunicorn -w 2 -b 0:8005 mysite.wsgi:application \
-        --access-logfile gunicorn/access.log \
-        --error-logfile gunicorn/error.log 
+        --access-logfile /var/log/gunicorn/access.log \
+        --error-logfile /var/log/gunicorn/error.log 
     
