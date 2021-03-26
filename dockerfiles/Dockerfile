@@ -14,7 +14,6 @@ ENV PATH="/root/.poetry/bin:${PATH}"
 
 RUN poetry config virtualenvs.create false
 
-COPY ./pyrightconfig.json .
 COPY ./pyproject.toml .
 COPY ./poetry.lock .
 RUN poetry install --no-dev
