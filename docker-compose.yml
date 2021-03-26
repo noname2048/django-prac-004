@@ -24,8 +24,10 @@ services:
     command:
       - /bin/bash
       - -c
-      - |
-        redis-server --appendonly yes --requirepass "redis"
+      - >
+        redis-server 
+        --appendonly yes
+        --requirepass "pickle"
 
   django_container:
     depends_on:
