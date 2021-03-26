@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# docker-compose -p gunicorn-app-blue -f dockerfiles/docker-compose.blue.yml up --build -d
-# docker-compose -p gunicorn-app-green -f dockerfiles/docker-compose.green.yml up --build -d
-echo "-->deploy.sh"
-echo ${PWD} 
+# docker-compose -f dockerfiles/docker-compose.blue.yml -p blue up --build -d 
+# docker-compose -f dockerfiles/docker-compose.green.yml -p green  up --build -d
 
-DOCKER_APP_NAME=gunicorn-app
-EXIST_BLUE=$(docker-compose -p blue_${DOCKER_APP_NAME}_1 -f dockerfiles/docker-compose.blue.yml ps | grep Up)
+echo "-->deploy.sh<--"
+echo "start deploy process at: ${PWD}"
+
+EXIST_BLUE=$(docker-compose -p blue -f dockerfiles/docker-compose.blue.yml ps | grep Up)
 
 if [ -z "$EXIST_BLUE" ]; then
 	echo "blue up"
-	docker-compose -p blue -f dockerfiles/docker-compose.blue.yml up -d
+	docker-compose -f dockerfiles/docker-compose.blue.yml -p blue up -d
 	sleep 10
-	docker-compose -p green  -f dockerfiles/docker-compose.green.yml down
+	docker-compose -f dockerfiles/docker-compose.green.yml -p green down
 else
 	echo "green up"
-	docker-compose -p green -f dockerfiles/docker-compose.green.yml up -d
+	docker-compose -f dockerfiles/docker-compose.green.yml -p green up -d
 	sleep 10
-	docker-compose -p blue -f dockerfiles/docker-compose.blue.yml down
+	docker-compose -f dockerfiles/docker-compose.blue.yml -p blue down
 fi
