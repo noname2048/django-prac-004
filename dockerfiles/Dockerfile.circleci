@@ -12,6 +12,17 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt .
 RUN apt-get update && pip install -r requirements.txt
 
+# poetry
+RUN wget https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py &&\
+    python get-poetry.py --yes && \
+    rm get-poetry.py
+ENV PATH="/root/.poetry/bin:${PATH}"
+
+RUN poetry config virtualenvs.create false
+COPY ./pyproject.toml .
+COPY ./poetry.lock .
+RUN poetry install
+
 WORKDIR /askbanana/django_project
 
 CMD ["/bin/bash"]
