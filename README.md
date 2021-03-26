@@ -53,6 +53,7 @@ Django 연습 레포 입니다.
 * github혹은 discus 덧글 지원기능
 * google analytics
 * open graph
+* reStructedText 로 문서 작성
 
 ### 1.4 돈벌면 구현할 기능
 
