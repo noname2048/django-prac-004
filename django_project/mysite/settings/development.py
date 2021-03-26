@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
 ]
 
 INTERNAL_IPS = [
-    "*",
+    "127.0.0.1",
 ]
 
 # Application definition
@@ -45,12 +45,15 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     # pypi
     "storages",
+    "debug_toolbar",
+    "django_extensions",
     # myapps
     "accounts",
     "forum",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -96,7 +99,6 @@ DATABASES = {
         "NAME": "postgres",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -153,8 +155,8 @@ FIRST_USER = {
 }
 
 # Storages
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
 AWS_REGION = "ap-northeast-2"
 AWS_STORAGE_BUCKET_NAME = os.environ["DEBUG_S3_AWS_STORAGE_BUCKET_NAME"]
@@ -168,3 +170,22 @@ AWS_DEFAULT_ACL = "public-read"
 
 AWS_ACCESS_KEY_ID = os.environ["DEBUG_S3_AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["DEBUG_S3_AWS_SECRET_ACCESS_KEY"]
+
+# debug_toolbar https://stackoverflow.com/questions/10517765/django-debug-toolbar-not-showing-up/50492036#50492036
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG
+}  # Docker INTERNAL IPS problem
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis_container:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "pickle",
+        },
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
