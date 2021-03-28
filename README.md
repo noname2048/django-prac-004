@@ -12,13 +12,13 @@ Django 연습 레포 입니다.
 
 ### 1.1 메인 기술 스택
 
-* `python 3.8.8` `poetry 1.1.5`
-* `docker v20.10.6` `docker-compose v1.25.5` `compose file format 3.8`
-* `django: 3.1.5`
+* `Python 3.8.8` `Poetry 1.1.5`
+* `docker v20.10.5` `docker-compose v1.28.5` `Compose file 3.8`
+* `django: 3.1.7`
 * `postgresSQL: 12.5`
 * `circleci: 2.1`
 * `codecov: py-v2.1.11`
-* `awscli/2.1.31 python/3.8.8`
+* `awscli/2.1.31 Python/3.8.8`
 
 ### 1.2 기능구현 (service feature)
 
