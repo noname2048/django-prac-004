@@ -24,10 +24,14 @@ Django 연습 레포 입니다.
 
 #### 1.2.1 서버 내부관련 기능
 
-* 로그인
+* 로그인 여러번 시도 해도 성공하면 redirect back 을 이용한 복귀
 * 비밀번호 찾기 (구현중)
 * tailwind css
-  
+* 자동 태그 처리
+* 조회수 기능 (IP not visited in 6h && User not visited in 6h) 
+* 작성자, 덧글 IP history
+* 페이지네이션
+
 #### 1.2.2 서버 외부관련 기능
 
 * CI, circleci + codecov
