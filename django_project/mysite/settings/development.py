@@ -173,8 +173,10 @@ AWS_ACCESS_KEY_ID = os.environ["DEBUG_S3_AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["DEBUG_S3_AWS_SECRET_ACCESS_KEY"]
 
 # debug_toolbar https://stackoverflow.com/questions/10517765/django-debug-toolbar-not-showing-up/50492036#50492036
+from django.conf import settings
+
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG
+    "SHOW_TOOLBAR_CALLBACK": lambda _request: settings.DEBUG
 }  # Docker INTERNAL IPS problem
 
 CACHES = {
