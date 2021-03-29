@@ -1,27 +1,117 @@
 {% load humanize forum_extras %}
 
-{% if forum_posts %}
-    <table>
-        <th>id</th>
-        <th>작성자</th>
-        <th>제목</th>
-        <th>일시</th>
-        <th>조회수</th>
-        <th>추천수</th>
-        <th>덧글수</th>
-        {% for post in forum_posts %}
-            <tr style="cursor:pointer" onClick="location.href='{% url "forum:post_detail" post.id %}'">
-                <td>{{ post.id }}</td>
-                <td>{{ post.author }}</td>
-                <td>{{ post.title }}</td>
-                <td class="bg-{{ post.updated_at | time_meter }}-100">{{ post.updated_at | naturaltime }}</td>
-                <td>{{ post.id }}</td>
-                <td>{{ post.id }}</td>
-                <td>{{ post.id }}</td>
-            </tr>
+{% if page_obj %}
+    <div class="flex flex-col">
 
-        {% endfor %}
-    </table>
+        <!--카테고리 정보-->
+        <div class="flex bg-white p-3 my-2">
+            <div class="flex flex-col flex-1">
+                <div class="flex flex-row items-end">
+                    <span class="text-lg">전체글</span>
+                    <span class="text-sm">{{ total_count }}</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-sm">since</span>
+                    <span class="text-sm">since</span>
+                </div>
+                <ul class="flex items-start">
+                    {% comment %} <li class="px-1"><a class="text-sm border-b">전체글</a></li> {% endcomment %}
+                    <li class="px-1"><a class="text-sm border-b">general</a></li>
+                    <li class="px-1"><a class="text-sm border-b">free</a></li>
+                </ul>
+            </div>
+            <div class="flex items-center">
+                <span>img</span>
+            </div>
+        </div>
+       
+        <!--게시판 리스트-->
+        <div class="flex flex-col bg-white px-3">
+
+            <!--검색과 글쓰기 버튼-->
+            <div class="flex items-center justify-between py-1">
+                <form action="#" method="GET">
+                    <input class="appearance-none focus:outline-none focus:border-blue-500 border-4 w-28" type="text" placeholder="N 검색" name="q">
+                    <button class="py-2 px-1 hover:text-blue-500" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <a class="border rounded-md px-3 py-1 hover:bg-blue-50 text-xs" href="{% url "forum:post_new" %}">글쓰기</a>
+            </div>
+
+            <!--리스트 헤더-->
+            <div class="flex flex-row border-t-2 border-blue-600">
+                <div class="flex items-center justify-center w-8 h-6 bg-indigo-100">
+                    <i class="far fa-comment-alt text-indigo-600"></i>
+                </div>
+                <div class="bg-gray-300 flex-1"></div>
+                <div class="flex items-center justify-center w-8 bg-indigo-100">
+                    <span class="flex items-center justify-center flex-1 border-r border-gray-800">
+                        <i class="far fa-thumbs-up text-blue-400"></i>
+                    </span>
+                </div>
+                <div class="flex items-center justify-center w-8 bg-indigo-100">
+                    <i class="far fa-eye text-blue-400"></i>
+                </div>
+            </div>
+
+            <!--리스트-->
+            {% for post in page_obj %}
+                <div class="flex flex-row border-b-2 border-gray-200 text-xs hover:bg-gray-200">
+                    <div class="flex items-center justify-center w-8 h-8">{{ post.forumcomment_set.count }}</div>
+                    <div class="flex items-center">
+                        <span class="px-2 border-l border-r">
+                            {% if post.category %}{{ post.category.name }}{% else %}없음{% endif %}
+                        </span>
+                    </div>
+                    <div class="flex items-center flex-1 text-sm px-2">
+                        <a href="{% url "forum:post_detail" post.id %}">{{ post.title }}</a>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="px-2 border-l border-r font-bold">
+                            {{ post.author }}
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-center w-20">
+                        {% comment %} 월이 같으면 naturaltime, 월이 다르면 00월 00일로, 해가 다를 경우에 0000년 00월 00일로 {% endcomment %}
+                        <span class="border-r-2 border-red-300 px-2">{{ post.updated_at | naturaltime }}</span>
+                    </div>
+                    <div class="flex items-center justify-center w-8">{{ post.forumlike_set.count }}</div>
+                    <div class="flex items-center justify-center w-8">{{ post.forumposthitcount_set.count }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!--페이지네이션-->
+        <div class="flex items-center justify-center m-3">
+            <div class="flex text-xs">
+                {% if page_obj.has_previous %}
+                    <!-- << -->
+                    <a class="border p-2 bg-white hover:bg-gray-200" href="?page=1">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    <!-- < -->
+                    <a class="border p-2 bg-white hover:bg-gray-200" href="?page={{ page_obj.previous_page_number }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <!-- -3 -2 -1 -->
+                    {% for i in page_obj.previous_page_range %}
+                        <a class="border p-2 bg-white hover:bg-gray-200" href="?page={{ i }}">{{ i }}</a>
+                    {% endfor %}
+                {% endif %}
+                <a class="border p-2 bg-gray-300">{{page_obj.number}}</a>
+                {% if page_obj.has_next %}
+                    <!-- +1 +2 +3 -->
+                    {% for i in page_obj.next_page_range %}
+                         <a class="border p-2 bg-white hover:bg-gray-200" href="?page={{ i }}">{{ i }}</a>
+                    {% endfor %}
+                    <!-- > -->
+                    <a class="border p-2 bg-white hover:bg-gray-200" href="?page={{ page_obj.next_page_number }}" >
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
 {% else %}
     <p>게시글이 없습니다.</p>
 {% endif %}
