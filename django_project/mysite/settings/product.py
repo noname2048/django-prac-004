@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     # pypi
     "storages",
+    "django_extensions",
+    "fontawesome-free",
     # myapps
     "accounts",
     "forum",

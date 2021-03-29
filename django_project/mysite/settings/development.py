@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     # pypi
     "storages",
     "debug_toolbar",
-    # "django_extensions",
+    "django_extensions",
+    "fontawesome-free",
     # myapps
     "accounts",
     "forum",
@@ -121,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-KR"
 
 TIME_ZONE = "Asia/Seoul"
 
@@ -172,9 +173,9 @@ AWS_ACCESS_KEY_ID = os.environ["DEBUG_S3_AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["DEBUG_S3_AWS_SECRET_ACCESS_KEY"]
 
 # debug_toolbar https://stackoverflow.com/questions/10517765/django-debug-toolbar-not-showing-up/50492036#50492036
-# DEBUG_TOOLBAR_CONFIG = {
-#     "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG
-# }  # Docker INTERNAL IPS problem
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG
+}  # Docker INTERNAL IPS problem
 
 CACHES = {
     "default": {
