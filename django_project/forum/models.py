@@ -28,7 +28,7 @@ class ForumCategory(BaseTimeModel):
     parent_category.name + " " + name 이 unique 하도록 차후에 변경
     """
 
-    parent_category = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
+    parent_category = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(unique=True, max_length=30)
     description = models.CharField(max_length=30)
 
@@ -82,14 +82,20 @@ class ForumPost(BaseTimeModel):
     def __str__(self):
         return self.title
 
-    def extract_tags(self, tag_list_str):
-        tag_name_list = re.findall(r"#([a-zA-Z\dㄱ-힣]+)", tag_list_str)
-        tag_list = []
-        for tag_name in tag_name_list:
-            tag, _ = ForumTag.objects.get_or_create(name=tag_name)
-        tag_list.append(tag)
+    def extract_tags(self, user_tag_str):
+        """Post 작성시 태그로 #이름, #무언가 (공백) 등을 남기면 자동으로 태그 등록
 
-        return tag_list
+        없으면 만들어서 태그를 반환합니다.
+        """
+
+        return_tag_obj_list = []
+        tag_candidates = re.findall(r"#([a-zA-Z\dㄱ-힣]+)", user_tag_str)
+
+        for tag_candidate in tag_candidates:
+            tag_obj, _ = ForumTag.objects.get_or_create(name=tag_candidate)
+            return_tag_obj_list.append(tag_obj)
+
+        return return_tag_obj_list
 
 
 class ForumPostHitCount(models.Model):

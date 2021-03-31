@@ -1,13 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="flex flex-col m-5">
-        <div class="flex justify-end">
-            <a class="border rounded-md px-3 py-2 hover:bg-blue-50" href="{% url "forum:post_new" %}">글쓰기</a>
-        </div>
-        <div class="flex items-center justify-center bg-gray-100">
-            {% include "forum/post_list.html" %}
-        </div>
+    <div class="flex items-center justify-center bg-gray-100">
+        {% include "forum/post_list.html" %}
     </div>
-
 {% endblock content %}
