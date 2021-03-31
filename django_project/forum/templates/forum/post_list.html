@@ -1,7 +1,7 @@
 {% load humanize forum_extras %}
 
 {% if page_obj %}
-    <div class="flex flex-col">
+    <div class="flex flex-col" style="width: 70%">
 
         <!--카테고리 정보-->
         <div class="flex bg-white p-3 my-2">
@@ -30,7 +30,7 @@
 
             <!--검색과 글쓰기 버튼-->
             <div class="flex items-center justify-between py-1">
-                <form action="#" method="GET">
+                <form action="{% url "forum:post_list" %}" method="GET">
                     <input class="appearance-none focus:outline-none focus:border-blue-500 border-4 w-28" type="text" placeholder="N 검색" name="q">
                     <button class="py-2 px-1 hover:text-blue-500" type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -42,7 +42,7 @@
                 <div class="flex items-center justify-center w-8 h-6 bg-indigo-100">
                     <i class="far fa-comment-alt text-indigo-600"></i>
                 </div>
-                <div class="bg-gray-300 flex-1"></div>
+                <div class="bg-gray-300 flex-1 w-40"></div>
                 <div class="flex items-center justify-center w-8 bg-indigo-100">
                     <span class="flex items-center justify-center flex-1 border-r border-gray-800">
                         <i class="far fa-thumbs-up text-blue-400"></i>
