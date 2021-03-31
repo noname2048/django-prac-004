@@ -1,5 +1,5 @@
 from django import forms
-from . import models as forum_model
+from forum import models as forum_model
 
 
 class FileFieldForm(forms.Form):
@@ -7,6 +7,8 @@ class FileFieldForm(forms.Form):
 
 
 class ForumPostForm(forms.ModelForm):
+    tag_help = forms.CharField(required=False)
+
     class Meta:
         model = forum_model.ForumPost
         fields = (
@@ -32,3 +34,9 @@ class ForumPostForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class ForumCommentForm(forms.ModelForm):
+    class Meta:
+        model = forum_model.ForumComment
+        fields = ("content",)
