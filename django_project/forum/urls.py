@@ -6,7 +6,8 @@ app_name = "forum"
 
 urlpatterns = [
     path("", forum_view.post_list, name="main"),
-    path("posts/", forum_view.post_list, name="post_list"),
-    path("post/new/", forum_view.post_new, name="post_new"),
-    path("post/<int:pk>/", forum_view.post_detail, name="post_detail"),
+    path("posts/", forum_view.post_list, name="posts_list"),
+    path("posts/new/", forum_view.post_new, name="posts_new"),
+    path("posts/<int:pk>/", forum_view.post_detail, name="posts_detail"),
+    path("posts/<int:post_pk>/comments/new/", forum_view.comments_new, name="comments_new"),
 ]

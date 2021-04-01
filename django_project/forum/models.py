@@ -139,10 +139,10 @@ class ForumComment(BaseTimeModel):
 
     post = models.ForeignKey(ForumPost, on_delete=CASCADE)
     author = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
-    parent_comment = models.ForeignKey("self", null=True, on_delete=models.CASCADE)
+    parent_comment = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
 
     content = models.CharField(max_length=300)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         """덧글은 먼저 쓴 사람부터 보이게"""
