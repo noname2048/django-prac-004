@@ -1,24 +1,43 @@
-from django.core import paginator
-from django.db.models.query_utils import Q
-from django.http.response import Http404
-from django.shortcuts import render, redirect, resolve_url, get_object_or_404
-from . import models as forum_models
-from . import forms as forum_forms
-from django import http
+# python built-in
+import datetime
+import logging
+
+# django built-in
+# base
+from django.http.request import HttpRequest
+from django.http.response import Http404, HttpResponseNotAllowed
+
+# auth
 from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
+
+# db
+from django.db.models.query_utils import Q
+
+# views
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.core.paginator import Paginator
+from django.core import paginator
+from django.contrib import messages
+
+# apps
+from forum import models as forum_models
+from forum import forms as forum_forms
+
+logger = logging.getLogger("django-server")
 
 
 def post_list(request):
     """포스트 리스트를 리턴하는 뷰
 
-    주요 컨텍스트로는 page_obj 와 totalcount 가 있습니다.
-    page_obj 에는 기본적인 장고의 pagination 외에도
-    previous_page_range, next_page_range 로 페이징을 추가 처리합니다.
+    허용된 메소드: GET
 
-    totalcount는 전체 게시글의 수를 나타냅니다.
-    오로지 GET 방식으로만 받는 중입니다.
+    컨텍스트
+    page_obj: built-in pagintor 객체
+    page.previous_page_range: index list of previous page -3 (offset=3)
+    page.next_page_range: index list of next page +3 (offset=3)
+    totalcount: 전체 게시글 수
+
     """
 
     if request.method == "GET":
@@ -52,17 +71,20 @@ def post_list(request):
         )
 
     else:
-        return http.HttpResponseNotAllowed(request)
+        return HttpResponseNotAllowed(request)
 
 
 @login_required
 def post_new(request):
     """새로운 포스트를 작성하는 뷰
 
-    당연히 로그인이 필요합니다.
-    GET 은 단순히 Form 을 이용하여 리턴합니다.
+    허용된 메소드
+    GET - 포스트 작성 폼 리턴
+    POST - 프스트 작성하고 작성된 게시글로 이동
 
-    POST의 경우에는 author와 ip는 자동으로 설정하는 항목입니다.
+    로그인이 필요합니다.
+
+    게시글 작성시 ip와 author는 request에서 정보를 취득합니다.
     """
 
     if request.method == "POST":
@@ -81,7 +103,7 @@ def post_new(request):
             if tags:
                 post.tags.add(*tags)
 
-            return redirect(resolve_url("forum:post_detail", post.id))
+            return redirect(resolve_url("forum:posts_detail", post.id))
 
     elif request.method == "GET":
         form = forum_forms.ForumPostForm()
@@ -94,59 +116,108 @@ def post_new(request):
             },
         )
 
+    else:
+        return HttpResponseNotAllowed()
 
-import datetime
 
+def post_detail(request: HttpRequest, pk: int):
+    """게시글의 상세 내용을 보여주는 페이지
 
-def post_detail(request, pk):
-    """게시글을 보여주는 페이지
+    허용되는 메소드: GET
 
-    pk가 있는데 게시글이 없다면 404를 보여줍니다.
-    is_active 가 false 여도 404를 보여줍니다.
+    pk 가 없거나, is_active 가 false 이면 404를 띄웁니다.
 
-    ip와 user는 조회수를 위해 자동으로 수집됩니다.
-    만약 둘다 6시간내에 기록이 없다면 조회수를 상승합니다.
+    조회수를 위해 ip와 user는 조회수를 위해 자동으로 수집됩니다.
+    만약 둘다 6시간내에 기록이 없다면 1 상승시킵니다.
 
     컨텍스트로는
     1. 카테고리 정보,
     2. 게시글 정보,
     3. 댓글 정보,
-    4. 댓글 폼
+    4. 새로 만들 댓글 폼
     을 리턴합니다.
     """
-    post = get_object_or_404(forum_models.ForumPost, pk=pk)
-    if post.is_active == False:
-        return Http404("Post does not exist")
+    if request.method == "GET":
 
-    user = get_user(request)
-    ip = request.META["REMOTE_ADDR"]
-    now = datetime.datetime.now()
-    now_before6 = now - datetime.timedelta(hours=6)
+        post = get_object_or_404(forum_models.ForumPost, pk=pk)
+        if post.is_active == False:
+            return Http404("Post does not exist")
 
-    if user.is_authenticated:
-        try:
-            forum_models.ForumPostHitCount.objects.get(
-                Q(post=post), Q(ip=ip) | Q(user=user), Q(date__gte=now_before6)
-            )
-        except forum_models.ForumPostHitCount.DoesNotExist:
-            hitcount = forum_models.ForumPostHitCount.objects.create(post=post, user=user, ip=ip)
+        user = get_user(request)
+        ip = request.META["REMOTE_ADDR"]
+        now = datetime.datetime.now()
+        now_before6 = now - datetime.timedelta(hours=6)
+
+        if user.is_authenticated:
+            try:
+                forum_models.ForumPostHitCount.objects.get(
+                    Q(post=post), Q(ip=ip) | Q(user=user), Q(date__gte=now_before6)
+                )
+            except forum_models.ForumPostHitCount.DoesNotExist:
+                hitcount = forum_models.ForumPostHitCount.objects.create(
+                    post=post, user=user, ip=ip
+                )
+        else:
+            try:
+                forum_models.ForumPostHitCount.objects.get(
+                    Q(post=post), Q(ip=ip), Q(date__gte=now_before6)
+                )
+            except forum_models.ForumPostHitCount.DoesNotExist:
+                hitcount = forum_models.ForumPostHitCount.objects.create(post=post, ip=ip)
+
+        category = post.category
+        comments = post.forumcomment_set.filter(is_active=True)
+        new_comment_form = forum_forms.ForumCommentForm(auto_id=False)
+
+        return render(
+            request,
+            "forum/post_detail.html",
+            {
+                "category": category,
+                "post": post,
+                "comments": comments,
+                "new_comment_form": new_comment_form,
+            },
+        )
+
     else:
+        return HttpResponseNotAllowed()
+
+
+def comments_new(request: HttpRequest, post_pk: int):
+    """댓글작성을 하는 뷰.
+    post에 comment 폼이 제공되므로 해당 뷰에서는 오로지 post만 받아 댓글을 작성하고, 뒤로가기를 합니다.
+
+    허용된 메소드: POST
+    """
+
+    if request.method == "POST":
+        # post_pk 와 is_active를 filter로 object를 가져옵니다.
         try:
-            forum_models.ForumPostHitCount.objects.get(
-                Q(post=post), Q(ip=ip), Q(date__gte=now_before6)
+            post = forum_models.ForumPost.objects.get(pk=post_pk, is_active=True)
+        except forum_models.ForumPost.DoesNotExist:
+            raise Http404("Post Not Exist")
+
+        logger.warning("oh")
+
+        form = forum_forms.ForumCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = get_user(request)
+            comment.is_active = True
+
+            comment.save()
+
+        else:
+            messages.warning(request, "댓글 작성에서 문제가 있었습니다.")
+
+        return redirect(
+            resolve_url(
+                "forum:posts_detail",
+                post.id,
             )
-        except forum_models.ForumPostHitCount.DoesNotExist:
-            hitcount = forum_models.ForumPostHitCount.objects.create(post=post, ip=ip)
+        )
 
-    category = post.category
-    comments = post.forumcomment_set.filter(is_active=True)
-
-    return render(
-        request,
-        "forum/post_detail.html",
-        {
-            "category": category,
-            "post": post,
-            "comments": comments,
-        },
-    )
+    else:
+        return HttpResponseNotAllowed(request)

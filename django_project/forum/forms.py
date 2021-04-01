@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import widgets
 from forum import models as forum_model
 
 
@@ -40,3 +41,14 @@ class ForumCommentForm(forms.ModelForm):
     class Meta:
         model = forum_model.ForumComment
         fields = ("content",)
+        widgets = {
+            "content": forms.Textarea(
+                attrs={
+                    "cols": 50,
+                    "rows": 4,
+                    "class": "p-2 appearance-none placeholder-gray-500 border border-gray-300 focus:outline-none focus:border-blue-500",
+                    "style": "resize: none;",
+                }
+            )
+        }
+        labels = {"content": "새댓글"}

@@ -31,7 +31,7 @@
             <div class="flex flex-1 flex-col bg-white px-3">
                 <!--제목-->
                 <h1 class="flex items-center justify-start">
-                    <span class="text-sm px-2 border-r border-indigo-500 text-gray-600">{{post.author.username}}님</span>
+                    <span class="text-sm px-2 border-r border-indigo-500 text-gray-600">{{ post.author.username }}님</span>
                     <span class="text-xl px-2 py-3">{{ post.title }}</span>
                 </h1>
 
@@ -56,7 +56,7 @@
                         <p class="text-sm" style="min-height: 10rem;">{{ post.content }}</p>
                         <!--좋아요버튼-->
                         <div class="flex justify-center">
-                            <form class="border-2 border-green-500 rounded-md px-2 py-1 hover:bg-green-500 text-green-500 text-sm" action="{% url "forum:post_detail" post.id %}">
+                            <form class="border-2 border-green-500 rounded-md px-2 py-1 hover:bg-green-500 text-green-500 text-sm" action="{% url "forum:posts_detail" post.id %}">
                                 <button><span><i class="far fa-thumbs-up"></i></span>좋아요 {{ post.forumlike_set.count }}</button>
                             </form>
                         </div>
@@ -68,20 +68,42 @@
                         <a class="border border-red-400 rounded-md py-1 px-2 bg-transparent hover:bg-red-400 hover:text-white text-xs" href="#">신고</a>
                     </div>
 
+                    <div class="py-2 px-3">
+                        <span>댓글</span>
+                    </div>
+
                     <!--comment-->
                     <div>
                         {% for comment in comments %}
-                           {{ comment.author }}
-                           {{ comment.content }}
+                            <div class="m-4 border">
+                                <div class="bg-gray-100 py-2">
+                                    <span class="text-xs px-1 border-r-2">작성자</span>
+                                    {{ comment.author }}
+                                </div>
+                                <div class="p-2">
+                                    {{ comment.content }}
+                                </div>
+                            </div> 
                         {% endfor %}
-                    </div>
 
-                    <!--new comment-->
-                    <div>
-                        {% for comment in comments %}
-                           {{ comment.author }}
-                           {{ comment.content }}
-                        {% endfor %}
+                        <!--new comment-->
+                        <div class="m-4 border">
+                            {% if user.is_authenticated %}
+                                <form class="flex flex-col p-4" action="{% url "forum:comments_new" post.id %}" method="POST">
+                                    {% csrf_token %}
+                                    {{ new_comment_form.as_table }}
+                                    <div class="flex justify-start">
+                                        <button class="p-2 border rounded-md" type="submit">작성</button>
+                                    </div>
+                                    
+                                </form>
+                            {% else %}
+                                <p>로그인해 주세요</p>
+                                <a href="#">로그인</a>
+                            {% endif %}
+                            
+                        </div>
+
                     </div>
                 </div>
                 
