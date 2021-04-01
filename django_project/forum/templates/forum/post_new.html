@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="flex item-center justify-center bg-gray-50">
-        <form class="flex flex-col" action="{% url "forum:post_new" %}" method="POST" enctype="multipart/form-data">
+        <form class="flex flex-col" action="{% url "forum:posts_new" %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form }}
             <div class="flex item-center justify-end mt-2">

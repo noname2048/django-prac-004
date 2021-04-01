@@ -30,11 +30,11 @@
 
             <!--검색과 글쓰기 버튼-->
             <div class="flex items-center justify-between py-1">
-                <form action="{% url "forum:post_list" %}" method="GET">
+                <form action="{% url "forum:posts_list" %}" method="GET">
                     <input class="appearance-none focus:outline-none focus:border-blue-500 border-4 w-28" type="text" placeholder="N 검색" name="q">
                     <button class="py-2 px-1 hover:text-blue-500" type="submit"><i class="fas fa-search"></i></button>
                 </form>
-                <a class="border rounded-md px-3 py-1 hover:bg-blue-50 text-xs" href="{% url "forum:post_new" %}">글쓰기</a>
+                <a class="border rounded-md px-3 py-1 hover:bg-blue-50 text-xs" href="{% url "forum:posts_new" %}">글쓰기</a>
             </div>
 
             <!--리스트 헤더-->
@@ -63,7 +63,7 @@
                         </span>
                     </div>
                     <div class="flex items-center flex-1 text-sm px-2">
-                        <a href="{% url "forum:post_detail" post.id %}">{{ post.title }}</a>
+                        <a href="{% url "forum:posts_detail" post.id %}">{{ post.title }}</a>
                     </div>
                     <div class="flex items-center">
                         <span class="px-2 border-l border-r font-bold">
