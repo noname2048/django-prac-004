@@ -50,14 +50,17 @@ Django 연습 레포 입니다.
 * JWT 토큰 - 프론트 지원
 * restframework - 우리집 책장 API
 * 비동기 태스크 큐: celery - sendgrid(mail)
-* 특정 app별로 media file 분리된 버킷에 업로드
+* 특정 app별로 media file 분리된 버킷에 업로드(돈이 없다 - 나중에)
 * SEO (search engine optimization: root.txt 외 기타)
 * 프론트 + vercel
 * google 혹은 github 로그인
 * github혹은 discus 덧글 지원기능
 * google analytics
 * open graph
-* reStructedText 로 문서 작성
+* reStructedText 로 문서 작성 (rst 지원 앱들이 별로 없다 - 보류)
+* cookie를 이용한 ..?
+* grapql relay
+* 
 
 ### 1.4 돈벌면 구현할 기능
 
