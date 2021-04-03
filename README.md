@@ -4,7 +4,8 @@
 [![codecov](https://codecov.io/gh/noname2048/django-prac-004/branch/main/graph/badge.svg?token=S44312H93C)](https://codecov.io/gh/noname2048/django-prac-004)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
-Django 연습 레포 입니다.
+Django 연습 레포 입니다. 실제 서비스 중 입니다. \
+[https://www.noname2048.dev](https://www.noname2048.dev)
 
 ## 1. 서버개요
 
