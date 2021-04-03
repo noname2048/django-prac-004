@@ -66,12 +66,12 @@ class ForumPost(BaseTimeModel):
 
     author = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
     category = models.ForeignKey(ForumCategory, null=True, on_delete=models.SET_NULL)
-    tags = models.ManyToManyField(ForumTag)
+    tags = models.ManyToManyField(ForumTag, blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
     title = models.CharField(max_length=30)
     content = models.TextField(max_length=500)  # max length effect only wigets
-    file = models.FileField(upload_to="files")
+    file = models.FileField(upload_to="files", blank=True)
     ip = models.GenericIPAddressField(null=True, editable=False)
 
     class Meta:
@@ -118,7 +118,7 @@ class ForumLike(BaseTimeModel):
     분석도 할 수 있도록 시간도
     """
 
-    posts = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
+    post = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
     author = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
