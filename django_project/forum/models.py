@@ -66,7 +66,7 @@ class ForumPost(BaseTimeModel):
 
     author = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
     category = models.ForeignKey(ForumCategory, null=True, on_delete=models.SET_NULL)
-    tags = models.ManyToManyField(ForumTag, blank=True, null=True)
+    tags = models.ManyToManyField(ForumTag, blank=True)
 
     is_active = models.BooleanField(default=True)
     title = models.CharField(max_length=30)
