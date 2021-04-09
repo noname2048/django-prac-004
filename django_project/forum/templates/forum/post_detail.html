@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "index.html" %}
 {% load humanize %}
 
 {% block content %}
@@ -58,6 +58,20 @@
                         <div class="flex justify-center">
                             <form class="border-2 border-green-500 rounded-md px-2 py-1 hover:bg-green-500 text-green-500 text-sm" action="{% url "forum:posts_detail" post.id %}">
                                 <button><span><i class="far fa-thumbs-up"></i></span>좋아요 {{ post.forumlike_set.count }}</button>
+                                <input type="button" value="like" id="posts_like">
+                                {% comment %} <script>
+                                    var btn = document.getElementById("posts_like");
+                                    btn.addEventListenr("click", () => {
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("GET", "{% url %}", true);
+                                        xhr.send();
+                                        xhr.onload = () => {
+                                            if (xhr.status == 204) {
+                                                console.log(xhr.response)
+                                            }
+                                        }
+                                    })
+                                </script> {% endcomment %}
                             </form>
                         </div>
                     </div>
