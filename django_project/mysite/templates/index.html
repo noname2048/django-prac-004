@@ -1,19 +1,48 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static "main.css" %}">
+    
+    {% block open_graph %}
+        <meta property="og:title" content="noname2048">
+        <meta property="og:description" content="noname2048의 포트폴리오">
+        <meta property="og:image" content="{% static "favicon.ico" %}">
+    {% endblock open_graph %}
+    
     <link rel="stylesheet" href="{% static "tailwind.css" %}">
     <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
-    <title>noname2048.dev</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "main.css" %}">
+
+    {% block title %}
+        <title>noname2048.dev</title>
+    {% endblock title %}
 </head>
 <body>
+    <header class="relative flex flex-row items-center justify-between bg-gray-200 px-20">
+        <a class="py-3" href="{% url "index" %}">
+            <span class="text-xl text-gray-800 hover:text-gray-100 font-my font-normal">Noname2048.dev</span>
+        </a>
+
+        <nav class="flex flex-grow items-center justify-end text-lg font-normal">
+            <a class="px-1 py-1 ml-3 text-black hover:text-gray-600" href="#">home</a>
+            <a class="px-1 py-1 ml-3 text-black hover:text-gray-600" href="{% url "forum:main" %}">forum</a>
+            <a class="px-1 py-1 ml-3 text-black hover:text-gray-600" href="#">logs</a>
+            <a class="px-1 py-1 ml-3 text-black hover:text-gray-600" href="#">books</a>
+           
+            {% if request.user.is_authenticated %}
+                <a class="ml-3 text-xs border border-transparent rounded text-white bg-green-600 hover:bg-green-700 shadow" href="{% url "accounts:logout" %}?next={{ request.path }}">로그아웃</a>
+            {% else %}
+                <a class="ml-3 text-xs px-2 py-1 border rounded text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}?next={% if next %}{{ next }}{% else %}{{ request.path }}{% endif %}">로그인</a>
+                <a class="ml-3 text-xs px-2 py-1 border rounded border-transparent text-white bg-indigo-600 hover:bg-indigo-700 shadow" href="{% url "accounts:signup" %}?next={{ request.path }}">회원가입</a>
+            {% endif %}
+        </nav>
+    </header>
 
     {% for message in messages %}
         <div>
@@ -22,32 +51,8 @@
         </div>
     {% endfor %}
 
-    <header class="relative flex flex-col font-my">
-        <div class="flex items-center justify-between bg-yellow-400 px-10">
-            <div class="flex items-center justify-start">
-                <a class="text-gray-500 hover:text-gray-800" href="{% url "index" %}">
-                    <span class="font-my font-normal text-xl text-gray-100">Noname2048.dev</span>
-                </a>
-            </div>
-            <nav class="flex items-center justify-around">
-                <a class="px-1 py-1 ml-2 text-black hover:text-gray-600" href="#">home</a>
-                <a class="px-1 py-1 ml-2 text-black hover:text-gray-600" href="{% url "forum:main" %}">forum</a>
-                <a class="px-1 py-1 ml-2 text-black hover:text-gray-600" href="#">logs</a>
-                <a class="px-1 py-1 ml-2 text-black hover:text-gray-600" href="#">books</a>
-            </nav>
-        </div>
-        <div class="absolute flex items-center justify-end text-sm px-10" style="right: 0px; top: 34px;">
-            {% if request.user.is_authenticated %}
-                <a class="border border-transparent rounded text-white bg-green-600 hover:bg-green-700 shadow" href="{% url "accounts:logout" %}?next={{ request.path }}">로그아웃</a>
-            {% else %}
-                <a class="border rounded px-2 py-1 text-gray-500 hover:text-gray-900" href="{% url "accounts:login" %}?next={% if next %}{{ next }}{% else %}{{ request.path }}{% endif %}">로그인</a>
-                <a class="border border-transparent rounded px-2 py-1 text-white bg-indigo-600 hover:bg-indigo-700 shadow" href="{% url "accounts:signup" %}?next={{ request.path }}">회원가입</a>
-            {% endif %}
-        </div>
-    </header>
-
     {% block content %}
+        <p>본문 내용이 없습니다.</p>
     {% endblock content %}
-
 </body>
 </html>
