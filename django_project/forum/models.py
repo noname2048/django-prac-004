@@ -60,19 +60,25 @@ class ForumTag(BaseTimeModel):
 class ForumPost(BaseTimeModel):
     """일반적인 게시판의 게시글 모델
     카테고리가 비어있으면 자동으로 free 로 지정합니다.
-    삭제 대신 is_active를 사용하여 내용을 남기고, 삭제된것처럼 행동합니다.
+    삭제 대신 is_active를 사용하여 내용을 남기고, 삭제된것처럼 행동합니다. (30일간 보관)
     게시글 작성/수정에 사용된 ip를 남길 수 있도록 해야함
     """
 
-    author = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
+    cache_comments_count = models.PositiveIntegerField(default=0)
+    category_name = models.CharField(max_length=30, blank=True)
+    title = models.CharField(max_length=30)
+    user_name = models.CharField(max_length=30, blank=True)
+    cache_likes_count = models.PositiveIntegerField(default=0)
+    cache_views_count = models.PositiveBigIntegerField(default=0)
+
+    user = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
     category = models.ForeignKey(ForumCategory, null=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(ForumTag, blank=True)
 
     is_active = models.BooleanField(default=True)
-    title = models.CharField(max_length=30)
-    content = models.TextField(max_length=500)  # max length effect only wigets
+    content = models.TextField(max_length=500)  # TextField: max length effect only wigets
     file = models.FileField(upload_to="files", blank=True)
-    ip = models.GenericIPAddressField(null=True, editable=False)
+    last_ip = models.GenericIPAddressField(null=True, editable=False)
 
     class Meta:
         """가장 최근에 생성된 게시물이 앞으로 오게끔"""
