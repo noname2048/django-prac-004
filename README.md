@@ -61,7 +61,7 @@ Django 연습 레포 입니다. 실제 서비스 중 입니다. \
 * reStructedText 로 문서 작성 (rst 지원 앱들이 별로 없다 - 보류)
 * cookie를 이용한 ..?
 * grapql relay
-* 
+* post model 내부에 카테고리 이름과 작성자 이름 반정규화 하기
 
 ### 1.4 돈벌면 구현할 기능
 

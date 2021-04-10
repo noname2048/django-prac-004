@@ -5,7 +5,7 @@ admin.site.register(forum_models.ForumCategory)
 # admin.site.register(forum_models.ForumPost)
 @admin.register(forum_models.ForumPost)
 class ForumPostAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "category", "author", "ip"]
+    list_display = ["id", "title", "category", "user"]
 
     actions = ["change_category"]
 

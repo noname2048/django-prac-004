@@ -5,7 +5,12 @@ import logging
 # django built-in
 # base
 from django.http.request import HttpRequest
-from django.http.response import Http404, HttpResponseNotAllowed
+from django.http.response import (
+    HttpResponse,
+    Http404,
+    HttpResponseNotAllowed,
+    HttpResponseNotModified,
+)
 
 # auth
 from django.contrib.auth import get_user
@@ -13,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 
 # db
 from django.db.models.query_utils import Q
+from django.db import transaction
 
 # views
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
@@ -207,8 +213,11 @@ def comments_new(request: HttpRequest, post_pk: int):
             comment.author = get_user(request)
             comment.is_active = True
 
-            comment.save()
+            with transaction.atomic():
+                comment.save()
 
+                post.cache_comments_count += 1
+                post.save()
         else:
             messages.warning(request, "댓글 작성에서 문제가 있었습니다.")
 
@@ -221,3 +230,46 @@ def comments_new(request: HttpRequest, post_pk: int):
 
     else:
         return HttpResponseNotAllowed(request)
+
+
+@login_required
+def posts_likes(request: HttpRequest, post_pk: int):
+    """게시글의 좋아요 구현
+    좋아요 처리하고 나서는 뒤로가기
+
+    혹시 좋아요를 낚시 링크에 달 수 도 있으니,
+    추후에sms csrf token을 넣어 POST로 작성합니다.
+    """
+
+    if request.method in ["GET", "POST"]:
+        try:
+            post = forum_models.ForumPost.objects.get(pk=post_pk, is_active=True)
+        except forum_models.ForumPost.DoesNotExist:
+            return Http404("Post not exist.")
+
+        user = get_user(request)
+        forum_models.ForumLike.objects.create(post=post, author=user)
+
+        # return HttpResponse(status=204)
+        return redirect(resolve_url("forum:posts_detail", post_pk))
+    else:
+        return HttpResponseNotAllowed()
+
+
+@login_required
+def comments_likes(request: HttpRequest, post_pk: int, comment_pk: int):
+
+    if request.method in ["GET", "POST"]:
+        try:
+            post = forum_models.ForumPost.objects.get(pk=post_pk, is_active=True)
+        except forum_models.ForumPost.DoesNotExist:
+            return Http404("Post not exist")
+
+        try:
+            comment = post.comments.get(pk=comment_pk)
+        except forum_models.ForumComment.DoesNotExist:
+            return Http404("Comments not exist")
+
+        # TODO : 댓글 추가
+
+    return HttpResponse(status=204)
