@@ -10,4 +10,11 @@ urlpatterns = [
     path("posts/new/", forum_view.post_new, name="posts_new"),
     path("posts/<int:pk>/", forum_view.post_detail, name="posts_detail"),
     path("posts/<int:post_pk>/comments/new/", forum_view.comments_new, name="comments_new"),
+    #
+    path("posts/<int:post_pk>/likes/", forum_view.posts_like, name="posts_like"),
+    path(
+        "posts/<int:post_pk>/comments/<int:comment_pk>likes/",
+        forum_view.comments_new,
+        name="comments_new",
+    ),
 ]

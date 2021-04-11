@@ -154,22 +154,18 @@ def post_detail(request: HttpRequest, pk: int):
         now = datetime.datetime.now()
         now_before6 = now - datetime.timedelta(hours=6)
 
+        #  유저 시나리오에서 다른 유저는 정상적인 상황에서 다른 IP를 쓴다고 가정한다.
         if user.is_authenticated:
-            try:
-                forum_models.ForumPostHitCount.objects.get(
-                    Q(post=post), Q(ip=ip) | Q(user=user), Q(date__gte=now_before6)
-                )
-            except forum_models.ForumPostHitCount.DoesNotExist:
-                hitcount = forum_models.ForumPostHitCount.objects.create(
-                    post=post, user=user, ip=ip
-                )
+            temp = user.id
         else:
-            try:
-                forum_models.ForumPostHitCount.objects.get(
-                    Q(post=post), Q(ip=ip), Q(date__gte=now_before6)
-                )
-            except forum_models.ForumPostHitCount.DoesNotExist:
-                hitcount = forum_models.ForumPostHitCount.objects.create(post=post, ip=ip)
+            temp = None
+
+        if not forum_models.ForumPostHitCount.objects.filter(
+            Q(post=post), Q(ip=ip) | Q(user_id=user.id), Q(date__gte=now_before6)
+        ).exists():
+            forum_models.ForumPostHitCount.objects.create(post=post, user_id=temp, ip=ip)
+            post.cache_views_count = post.forumposthitcount_set.count()
+            post.save(update_fields=["cache_views_count"])
 
         category = post.category
         comments = post.forumcomment_set.filter(is_active=True)
@@ -233,7 +229,7 @@ def comments_new(request: HttpRequest, post_pk: int):
 
 
 @login_required
-def posts_likes(request: HttpRequest, post_pk: int):
+def posts_like(request: HttpRequest, post_pk: int):
     """게시글의 좋아요 구현
     좋아요 처리하고 나서는 뒤로가기
 
@@ -248,9 +244,12 @@ def posts_likes(request: HttpRequest, post_pk: int):
             return Http404("Post not exist.")
 
         user = get_user(request)
-        forum_models.ForumLike.objects.create(post=post, author=user)
+        if forum_models.ForumLike.objects.filter(post=post, author=user).exists():
+            messages.info(request, "이미 해당게시글의 좋아요를 눌렀습니다.")
+        else:
+            forum_models.ForumLike.objects.create(post=post, author=user)
+            post.cache_likes_count = post.forumlike_set.count()
 
-        # return HttpResponse(status=204)
         return redirect(resolve_url("forum:posts_detail", post_pk))
     else:
         return HttpResponseNotAllowed()
