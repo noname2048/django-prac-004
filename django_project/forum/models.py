@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_DEFAULT
 from django.db.models.fields.related import ForeignKey
@@ -119,14 +120,27 @@ class ForumPostHitCount(models.Model):
 
 
 class ForumLike(BaseTimeModel):
-    """게시글의 좋아요 기능 구현
+    """좋아요 기능 구현
+
+    fk로 post와 comment를 가집니다. 둘 중 하나만 채워져 있어야 합니다. => clean 에서 검사
+
     게시글과 사용자를 기록
     분석도 할 수 있도록 시간도
     """
 
-    post = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
+    post = models.ForeignKey(ForumPost, on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.ForeignKey(
+        "ForumComment", on_delete=models.deletion.CASCADE, blank=True, null=True
+    )
     author = models.ForeignKey(USER_MODLE, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        super().clean()
+        if self.post is None and self.comment is None:
+            raise ValidationError("One of field must be not null. (post, comment) ")
+        elif self.post and self.comment:
+            raise ValidationError("One of field must be null. (post, comment) ")
 
     class Meta:
         """게시글의 좋아요는 가장 최근부터 내림차순으로"""

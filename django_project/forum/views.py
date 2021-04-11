@@ -1,6 +1,7 @@
 # python built-in
 import datetime
 import logging
+from django.core.exceptions import ObjectDoesNotExist
 
 # django built-in
 # base
@@ -256,19 +257,27 @@ def posts_like(request: HttpRequest, post_pk: int):
 
 
 @login_required
-def comments_likes(request: HttpRequest, post_pk: int, comment_pk: int):
+def comments_like(request: HttpRequest, post_pk: int, comment_pk: int):
+    """덧글의 좋아요 구현"""
 
     if request.method in ["GET", "POST"]:
         try:
-            post = forum_models.ForumPost.objects.get(pk=post_pk, is_active=True)
-        except forum_models.ForumPost.DoesNotExist:
-            return Http404("Post not exist")
+            comment = forum_models.ForumComment.objects.get(pk=comment_pk)
+            post = comment.post
 
-        try:
-            comment = post.comments.get(pk=comment_pk)
-        except forum_models.ForumComment.DoesNotExist:
-            return Http404("Comments not exist")
+            if post.is_active == False:
+                raise ObjectDoesNotExist
 
-        # TODO : 댓글 추가
+        except ObjectDoesNotExist:
+            return Http404("resource does not exist")
 
-    return HttpResponse(status=204)
+        user = get_user(request)
+        if not forum_models.ForumLike.objects.filter(comment_id=comment.id).exists():
+            forum_models.ForumLike.objects.create(comment=comment, author=user)
+        else:
+            messages.info(request, "이미 해당 덧글에 좋아요를 눌렀습니다.")
+
+        return redirect(resolve_url("forum:posts_detail", post.id))
+
+    else:
+        return HttpResponseNotAllowed()

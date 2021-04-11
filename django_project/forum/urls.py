@@ -13,8 +13,8 @@ urlpatterns = [
     #
     path("posts/<int:post_pk>/likes/", forum_view.posts_like, name="posts_like"),
     path(
-        "posts/<int:post_pk>/comments/<int:comment_pk>likes/",
-        forum_view.comments_new,
-        name="comments_new",
+        "posts/<int:post_pk>/comments/<int:comment_pk>/likes/",
+        forum_view.comments_like,
+        name="comments_like",
     ),
 ]
