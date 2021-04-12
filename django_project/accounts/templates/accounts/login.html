@@ -1,5 +1,7 @@
 {% extends "index.html" %}
 
+{% load socialaccount %}
+
 {% block content %}
     
     {% if form %}
@@ -25,13 +27,17 @@
                         </div>
                     {% endfor %}
                     
+                    <!--아이디 패스워드 찾기 버튼-->
                     <div class="flex items-center justify-end">
                         <a class="text-black hover:text-gray-500" href="#">아이디찾기</a>/<a class="text-black hover:text-gray-500" href="#">패스워드찾기</a>
                     </div>
+                    <!--로그인 버튼-->
                     <div class="flex item-center justify-between">
                         <button class="bg-green-100 p-2 rounded w-full mt-4" type="submit">로그인</button>
                     </div>
 
+                    <!--소셜로그인-->
+                    <a href="{% provider_login_url "google" %}">구글로 로그인 하기</a>
                 </div>
             </form>
         </div>
