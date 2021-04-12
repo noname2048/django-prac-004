@@ -26,8 +26,9 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path("accounts/", include("accounts.urls")),
+    path("myaccounts/", include("accounts.urls")),
     path("forum/", include("forum.urls")),
+    path("accounts/", include("allauth.urls")),
 ]
 
 if settings.DEBUG:
