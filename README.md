@@ -1,13 +1,25 @@
 # Django Portfolio
 
-[![django-prac-004](https://circleci.com/gh/noname2048/django-prac-004.svg?style=shield)](https://circleci.com/gh/noname2048/django-prac-004)
+[![django-prac-004](https://circleci.com/gh/noname2048/django-prac-004.svg?style=shield)](https://circleci.com/gh/noname2048/django-prac-004?branch=main)
 [![codecov](https://codecov.io/gh/noname2048/django-prac-004/branch/main/graph/badge.svg?token=S44312H93C)](https://codecov.io/gh/noname2048/django-prac-004)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
-Django 연습 레포 입니다. 실제 서비스 중 입니다. \
+Django 연습 레포 입니다. 21.03.04 ~ 21.04.15 까지 서비스 하였습니다. \
+비용문제로 더 좋은 서비스로 돌아오겠습니다. \
 [https://www.noname2048.dev](https://www.noname2048.dev)
 
 ## 1. 서버개요
+![](/presentation/스크린샷,%202021-04-15%2018-50-13.png)
+
+![](/presentation/스크린샷,%202021-04-15%2018-50-50.png)
+
+![](presentation/스크린샷,%202021-04-15%2022-50-36.png)
+
+![](presentation/스크린샷,%202021-04-15%2018-24-51.png)
+
+![](presentation/스크린샷,%202021-04-15%2018-26-03.png)
+
+![](presentation/스크린샷,%202021-04-15%2018-33-17.png)
 
 다이어그램
 
@@ -25,13 +37,12 @@ Django 연습 레포 입니다. 실제 서비스 중 입니다. \
 
 #### 1.2.1 서버 내부관련 기능
 
-* 로그인 여러번 시도 해도 성공하면 redirect back 을 이용한 복귀
-* 비밀번호 찾기 (구현중)
-* tailwind css
+* 로그인 여러번 시도 해도 성공하면 redirect back 을 이용한 정상 복귀
+* tailwind css 로 스타일링 하기
 * 자동 태그 처리
-* 조회수 기능 (IP not visited in 6h && User not visited in 6h) 
-* 작성자, 덧글 IP history
-* 페이지네이션
+* 조회수 기능 (해당 IP가 6시간 내에 보았거나 / 해당 USER가 6시간내에 봤으면 무효) 
+* 페이지네이션 커스텀
+* open graph (글마다로 고칠 것) 
 
 #### 1.2.2 서버 외부관련 기능
 
@@ -43,7 +54,8 @@ Django 연습 레포 입니다. 실제 서비스 중 입니다. \
 * Load Balance (aws alb, nginx)
 
 ### 1.3 구현할 기능
-
+* 글과 덧글을 수정하고 생성할 때 IP history 추가하기.
+* 비밀번호 찾기
 * key-value memory cache: redis (aws elasticache, cost...?)
 * document type nosql: mongodb
 * static files: aws cloudfront
@@ -57,7 +69,6 @@ Django 연습 레포 입니다. 실제 서비스 중 입니다. \
 * google 혹은 github 로그인
 * github혹은 discus 덧글 지원기능
 * google analytics
-* open graph
 * reStructedText 로 문서 작성 (rst 지원 앱들이 별로 없다 - 보류)
 * cookie를 이용한 ..?
 * grapql relay
