@@ -281,3 +281,40 @@ def comments_like(request: HttpRequest, post_pk: int, comment_pk: int):
 
     else:
         return HttpResponseNotAllowed()
+
+
+@login_required
+def comment_comments(request: HttpRequest, post_pk: int, comment_pk: int):
+    """
+    대댓글을 구현하는 view
+
+    1. comment와 post가 active 한지 확인합니다.
+    2. parent_comment 속성으로 comment를 가지는 comment를 생성합니다.
+    """
+    if request.method in ["POST"]:
+        try:
+            comment = forum_models.ForumComment.objects.filter(is_active=True).get(pk=comment_pk)
+            post = forum_models.ForumPost.objects.filter(is_active=True).get(pk=post_pk)
+        except:
+            return Http404()
+
+        form = forum_forms.ForumCommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.author = get_user(request)
+            new_comment.is_active = True
+            new_comment.parent_comment = comment
+
+            with transaction.atomic():
+                new_comment.save()
+                post.cache_comments_count += 1
+                post.save()
+
+            messages.success(request, "댓글작성에 성공하였습니다.")
+        else:
+            messages.warning(request, "댓글작성에 실패하였습니다.")
+
+        return redirect(resolve_url("forum:posts_detail", post.id))
+    else:
+        return HttpResponseNotAllowed()

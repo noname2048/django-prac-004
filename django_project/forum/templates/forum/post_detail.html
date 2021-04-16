@@ -3,7 +3,7 @@
 {% load forum_extras %}
 
 {% block content %}
-    <div class="flex flex-col items-center justify-center bg-gray-100 h-screen">
+    <div class="flex flex-col items-center justify-center bg-gray-100">
         <div class="flex flex-1 flex-col" style="width: 70%;">
         
             <!--카테고리 정보-->
@@ -70,12 +70,34 @@
                         <a class="border border-red-400 rounded-md py-1 px-2 bg-transparent hover:bg-red-400 hover:text-white text-xs" href="#">신고</a>
                     </div>
 
-                    <div class="py-2 px-3">
-                        <span>댓글</span>
+                     <!--new comment-->
+                    <div class="border">
+                        {% if user.is_authenticated %}
+                            <form class="flex flex-col p-4" action="{% url "forum:comments_new" post.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="flex flex-row justify-between items-center bg-gray-100 border">
+                                    <div class="bg-gray-100 py-2">
+                                        <span class="text-xs px-1 border-r-2">작성자</span>
+                                        {{ request.user.username }}
+                                    </div>
+                                </div>
+                                {{ new_comment_form.content }}
+                                <div class="flex justify-end">
+                                    <button class="p-2 border rounded-md" type="submit">작성</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <p>로그인해 주세요</p>
+                            <a href="#">로그인</a>
+                        {% endif %}    
                     </div>
 
                     <!--comment-->
-                    <div>
+                    <div class="border pt-2">
+                        <div class="py-2 px-3">
+                            <span>댓글보기</span>
+                        </div>
+
                         {% for comment in comments %}
                             <div class="m-4 border">
                                 <div class="flex flex-row justify-between items-center bg-gray-100">
@@ -97,25 +119,48 @@
                                 <div class="p-2">
                                     {{ comment.content }}
                                 </div>
-                            </div> 
-                        {% endfor %}
-
-                        <!--new comment-->
-                        <div class="m-4 border">
-                            {% if user.is_authenticated %}
-                                <form class="flex flex-col p-4" action="{% url "forum:comments_new" post.id %}" method="POST">
+                                <div>
+                                    {% for re_comment in comment.forumcomment_set.all %}
+                                        <div class="m-4 border">
+                                            <div class="flex flex-row justify-between items-center bg-gray-100">
+                                                <div class="bg-gray-100 py-2">
+                                                    <span class="text-xs px-1 border-r-2">작성자</span>
+                                                    {{ re_comment.author }}
+                                                </div>
+                                                <a class="flex-col items-center text-xs px-2" href="{% url "forum:comments_like" post.id comment.id %}">
+                                                    <span>추천 {{ re_comment.forumlike_set.count }}</span>
+                                                    <span>
+                                                        {% if re_comment|is_user_like:user %}
+                                                            추천완료
+                                                        {% else %}
+                                                            추천하기
+                                                        {% endif %}
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="p-2">
+                                                {{ re_comment.content }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <form class="flex flex-col p-4" action="{% url "forum:comments_comment" post.id comment.id %}" method="POST">
                                     {% csrf_token %}
-                                    {{ new_comment_form.as_table }}
-                                    <div class="flex justify-start">
+                                    <div class="flex flex-row justify-between items-center bg-gray-100 border">
+                                        <div class="bg-gray-100 py-2">
+                                            <span class="text-xs px-1 border-r-2">작성자</span>
+                                            {{ request.user.username }}
+                                        </div>
+                                    </div>
+                                    {{ new_comment_form.content }}
+                                    <div class="flex justify-end">
                                         <button class="p-2 border rounded-md" type="submit">작성</button>
                                     </div>
                                 </form>
-                            {% else %}
-                                <p>로그인해 주세요</p>
-                                <a href="#">로그인</a>
-                            {% endif %}
-                            
-                        </div>
+                            </div> 
+                        {% endfor %}
+
+                       
 
                     </div>
                 </div>
