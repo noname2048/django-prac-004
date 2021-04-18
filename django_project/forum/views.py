@@ -9,9 +9,11 @@ from django.http.request import HttpRequest
 from django.http.response import (
     HttpResponse,
     Http404,
+    HttpResponseBadRequest,
     HttpResponseNotAllowed,
     HttpResponseNotModified,
 )
+from django.utils import timezone
 
 # auth
 from django.contrib.auth import get_user
@@ -102,6 +104,15 @@ def post_new(request):
 
             post.author = get_user(request)
             post.ip = request.META["REMOTE_ADDR"]
+
+            if (
+                forum_models.ForumPost.objects.filter(
+                    created_at__gt=timezone.localtime() - timezone.timedelta(hours=1)
+                ).count()
+                > 5
+            ):
+                return HttpResponseBadRequest()
+
             post.save()
 
             tag_list = form.data.get("tag_help")
@@ -214,6 +225,13 @@ def comments_new(request: HttpRequest, post_pk: int):
                 comment.save()
 
                 post.cache_comments_count += 1
+                if (
+                    forum_models.ForumComment.objects.filter(
+                        created_at__gt=timezone.localtime() - timezone.timedelta(hours=1)
+                    ).count()
+                    > 30
+                ):
+                    return HttpResponseBadRequest()
                 post.save()
         else:
             messages.warning(request, "댓글 작성에서 문제가 있었습니다.")
