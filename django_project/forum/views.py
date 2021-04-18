@@ -225,6 +225,13 @@ def comments_new(request: HttpRequest, post_pk: int):
                 comment.save()
 
                 post.cache_comments_count += 1
+                if (
+                    forum_models.ForumComment.objects.filter(
+                        created_at__gt=timezone.localtime() - timezone.timedelta(hours=1)
+                    ).count()
+                    > 30
+                ):
+                    return HttpResponseBadRequest()
                 post.save()
         else:
             messages.warning(request, "댓글 작성에서 문제가 있었습니다.")
